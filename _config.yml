@@ -3,7 +3,7 @@ title: 大学咸鱼社
 SEOTitle: 大学咸鱼社 - 咸鱼的自学之路
 header-img: img/post-bg-desk.jpg
 email: dxxyclub@qq.com
-description: "Easy to learn, no more hard work to recite vocabulary."
+description: "自学成才，做自己的老师"
 keyword: "自学, 教程, 大学生, 个人"
 url: "https://qxxia.top"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
@@ -20,7 +20,7 @@ sidebar-avatar: /img/about-HJ.jpg      # use absolute URL, seeing it's used in b
 RSS: false
 # weibo_username:     qiubaiying
 # zhihu_username:     qiubaiying
-github_username:      globien
+github_username:      dxxyvlub
 # facebook_username:  baiying.qiu.7
 # jianshu_username:   e71990ada2fd
 # twitter_username:   qiubaiying
@@ -78,7 +78,7 @@ gitalk:
 
 # Google Analytics
 # ga_track_id: 'UA-90855596-1'            # Format: UA-xxxxxx-xx
-# ga_domain: qiubaiying.top               # 默认的是 auto, 这里我是自定义了的域名，你如果没有自己的域名，需要改成auto
+# ga_domain: qxxia.top               # 默认的是 auto, 这里我是自定义了的域名，你如果没有自己的域名，需要改成auto
 
 
 
@@ -97,18 +97,18 @@ service-worker: true
 
 
 # Friends
-friends: [
+#friends: [
     {
-        title: "Globien Wiki Dictionary",
-        href: "https://github.com/globien/globien.github.io/wiki"
+ #       title: "Globien Wiki Dictionary",
+ #       href: "https://github.com/globien/globien.github.io/wiki"
     },{
-        title: "Globien Community",
-        href: "https://globien.fandom.com/wiki/Globien_Wiki"
+  #      title: "Globien Community",
+  #      href: "https://globien.fandom.com/wiki/Globien_Wiki"
     },{
-        title: "知乎：人造国际语",
-        href: "https://zhuanlan.zhihu.com/Artificial-International-Language"
+   #     title: "知乎：人造国际语",
+    #    href: "https://zhuanlan.zhihu.com/Artificial-International-Language"
     },{
-        title: "知乎：Henri_Jambo",
-        href: "https://www.zhihu.com/people/henry-jiang-78" 
+    #    title: "知乎：Henri_Jambo",
+      #  href: "https://www.zhihu.com/people/henry-jiang-78" 
     }
 ]
