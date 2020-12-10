@@ -1,13 +1,13 @@
 # Site settings
-title: Globien Interlingu
-SEOTitle: Globien - Makes Communication Easier
+title: 大学咸鱼社
+SEOTitle: 大学咸鱼社 - 咸鱼的自学之路
 header-img: img/post-bg-desk.jpg
-email: globien@outlook.com
+email: dxxyclub@qq.com
 description: "Easy to learn, no more hard work to recite vocabulary."
-keyword: "Constructed Language, Ligua Franca, Interlingua, Globien"
-url: "https://globien.github.io"          # your host, for absolute URL
+keyword: "自学, 教程, 大学生, 个人"
+url: "https://qxxia.top"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
-github_repo: "https://github.com/globien/globien.github.io.git" # you code repository
+github_repo: "https://github.com/x-windy/x-windy.github.io.git" # you code repository
 
 # Sidebar settings
 sidebar: true                           # whether or not using Sidebar.
