@@ -1,13 +1,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>x-windy – Java</title>
-    <link>https://x-windy.github.io/zh-cn/tags/java/</link>
+    <link>https://github.com/x-windy/x-windy.github.io/zh-cn/tags/java/</link>
     <description>Recent content in Java on x-windy</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Wed, 05 Jul 2023 02:38:55 +0800</lastBuildDate>
     
-	  <atom:link href="https://x-windy.github.io/zh-cn/tags/java/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://github.com/x-windy/x-windy.github.io/zh-cn/tags/java/index.xml" rel="self" type="application/rss+xml" />
     
     
       
@@ -17,10 +17,10 @@
     
     <item>
       <title>Docs: 第2章 创建和销毁对象</title>
-      <link>https://x-windy.github.io/zh-cn/docs/effective-java/%E7%AC%AC2%E7%AB%A0-%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/</link>
+      <link>https://github.com/x-windy/x-windy.github.io/zh-cn/docs/effective-java/%E7%AC%AC2%E7%AB%A0-%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/</link>
       <pubDate>Wed, 05 Jul 2023 02:38:55 +0800</pubDate>
       
-      <guid>https://x-windy.github.io/zh-cn/docs/effective-java/%E7%AC%AC2%E7%AB%A0-%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/</guid>
+      <guid>https://github.com/x-windy/x-windy.github.io/zh-cn/docs/effective-java/%E7%AC%AC2%E7%AB%A0-%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/</guid>
       <description>
         
         

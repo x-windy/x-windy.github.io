@@ -1,12 +1,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>x-windy – 日语</title>
-    <link>https://x-windy.github.io/zh-cn/blog/%E6%97%A5%E8%AF%AD/</link>
+    <link>https://github.com/x-windy/x-windy.github.io/zh-cn/blog/%E6%97%A5%E8%AF%AD/</link>
     <description>Recent content in 日语 on x-windy</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     
-	  <atom:link href="https://x-windy.github.io/zh-cn/blog/%E6%97%A5%E8%AF%AD/index.xml" rel="self" type="application/rss+xml" />
+	  <atom:link href="https://github.com/x-windy/x-windy.github.io/zh-cn/blog/%E6%97%A5%E8%AF%AD/index.xml" rel="self" type="application/rss+xml" />
     
     
       

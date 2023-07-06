@@ -201,11 +201,6 @@
     <lastmod>2023-07-06T23:02:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
-                hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/docs/"
-                />
-    <xhtml:link
-                rel="alternate"
                 hreflang="ja"
                 href="https://x-windy.github.io/ja/docs/"
                 />
@@ -424,11 +419,6 @@
     <lastmod>2023-07-06T23:02:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
-                hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/blog/"
-                />
-    <xhtml:link
-                rel="alternate"
                 hreflang="ja"
                 href="https://x-windy.github.io/ja/blog/"
                 />
@@ -484,11 +474,6 @@
   </url><url>
     <loc>https://x-windy.github.io/en/search/</loc>
     <lastmod>2023-07-06T23:02:30+08:00</lastmod>
-    <xhtml:link
-                rel="alternate"
-                hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/search/"
-                />
     <xhtml:link
                 rel="alternate"
                 hreflang="ja"
