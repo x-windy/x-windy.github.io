@@ -1,0 +1,18 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>x-windy – 主页</title>
+    <link>https://x-windy.github.io/zh-cn/home/</link>
+    <description>Recent content in 主页 on x-windy</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    
+	  <atom:link href="https://x-windy.github.io/zh-cn/home/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+  </channel>
+</rss>

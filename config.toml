@@ -14,7 +14,7 @@ title = "x-windy"
 # Language settings
 contentDir = "content/zh-cn"
 defaultContentLanguage = "zh-cn"
-defaultContentLanguageInSubdir = false
+defaultContentLanguageInSubdir = true
 # Useful when translating.
 enableMissingTranslationPlaceholders = true
 
@@ -70,11 +70,9 @@ id = "UA-00000000-0"
 [languages]
 [languages.zh-cn]
 languageName ="中文"
-contentDir = "content/zh-cn"
 # Weight used for sorting.
 weight = 1
 [languages.zh-cn.params]
-title = "x-windy"
 description = "A Docsy example site"
 time_format_default = "2006-1-2 15:04:05 周一 下午"
 time_format_blog = "2006-1-2 15:04:05 周一 下午"
