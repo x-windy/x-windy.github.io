@@ -12,8 +12,8 @@ baseURL = "https://x-windy.github.io/"
 title = "x-windy"
 
 # Language settings
-contentDir = "content/zh-cn"
-defaultContentLanguage = "zh-cn"
+contentDir = "content/en"
+defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = true
 # Useful when translating.
 enableMissingTranslationPlaceholders = true
