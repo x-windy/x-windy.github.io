@@ -1,0 +1,121 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>x-windy – Effective Java</title>
+    <link>https://x-windy.github.io/ja/categories/effective-java/</link>
+    <description>Recent content in Effective Java on x-windy</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Wed, 05 Jul 2023 02:38:55 +0800</lastBuildDate>
+    
+	  <atom:link href="https://x-windy.github.io/ja/categories/effective-java/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: 第1章 引言</title>
+      <link>https://x-windy.github.io/ja/docs/effective-java/%E7%AC%AC1%E7%AB%A0-%E5%BC%95%E8%A8%80/</link>
+      <pubDate>Wed, 05 Jul 2023 02:37:06 +0800</pubDate>
+      
+      <guid>https://x-windy.github.io/ja/docs/effective-java/%E7%AC%AC1%E7%AB%A0-%E5%BC%95%E8%A8%80/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 第2章 创建和销毁对象</title>
+      <link>https://x-windy.github.io/ja/docs/effective-java/%E7%AC%AC2%E7%AB%A0-%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/</link>
+      <pubDate>Wed, 05 Jul 2023 02:38:55 +0800</pubDate>
+      
+      <guid>https://x-windy.github.io/ja/docs/effective-java/%E7%AC%AC2%E7%AB%A0-%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;第1条用静态工厂方法代替构造器&#34;&gt;第1条：用静态工厂方法代替构造器&lt;/h2&gt;
+&lt;h3 id=&#34;提供一个公有的构造方法&#34;&gt;提供一个公有的构造方法&lt;/h3&gt;
+&lt;h4 id=&#34;缺点&#34;&gt;缺点：&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;构造方法没有描述正被返回的对象的名称&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;多个构造方法时，记不住用哪个，容易调用错误的构造方法&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;// 营养成分
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;NutritionFacts&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;servingSize&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;int&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;servings&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#c4a000&#34;&gt;servingSize&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;servingSize&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    	&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;this&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#c4a000&#34;&gt;servings&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;servings&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;提供一个公有的静态方法&#34;&gt;提供一个公有的静态方法&lt;/h3&gt;
+&lt;h4 id=&#34;优点&#34;&gt;优点&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;只是一个返回类的实例的静态方法&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;有名称，可通过名称区分&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;每次调用它们时，不必每次都创建一个新对象(避免构造重复的对象)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可以返回原返回类型的任何子类的对象(?)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;所有返回的对象的类可以随着每次调用而发生变化&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;方法返回的对象所属的类，在编写包含该静态方法时的类时可以不存在(?)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;缺点-1&#34;&gt;缺点&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;类如果不含公有的或者受保护大的构造方法，就不能被子类化&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;很难发现它，在API文档中，没有明确标识出&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;静态方法常用方法名称&#34;&gt;静态方法常用方法名称&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;from、of、valueOf、getInstance、newInstance、getType、newType&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;from&lt;/code&gt;——类型转换方法，只有一个参数，返回该类型的一个相应的实&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#000&#34;&gt;Date&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;d&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Date&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#c4a000&#34;&gt;from&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;instant&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;of&lt;/code&gt;——聚合方法，带有多个参数，返回该类型合并起来的一个实例：&lt;code&gt;Set&amp;lt;Rank&amp;gt; faceCads = EnumSet.of(JACK,TOM,KING);&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;valueOf&lt;/code&gt;比&lt;code&gt;from&lt;/code&gt;和&lt;code&gt;of&lt;/code&gt;——更繁琐的一种代替方法：&lt;code&gt;BigInteger prime =  BigInteger.valueOf(Integer.MAX_VALUE); &lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;instance&lt;/code&gt;或者 &lt;code&gt;getInstance&lt;/code&gt; ——返回的实例是通过方法的（如有）参数来描述的，但是不能说与参数具有同样的值：&lt;code&gt;StackWalker  luke= StackWalker.getInstance(options);&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;create&lt;/code&gt;或者``newInstance&lt;code&gt; ——像&lt;/code&gt;instance&lt;code&gt;或者 &lt;/code&gt;getInstance&lt;code&gt; 一样，但&lt;/code&gt;create&lt;code&gt;或者 &lt;/code&gt;newInstance &lt;code&gt;能够确保每次调用都返回一个**新的实例**：&lt;/code&gt;Objectnew Array = Array.newInstance(class0bject,arrayLen);`&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;getType&lt;/code&gt;——像 &lt;code&gt;getInstance &lt;/code&gt;一样，但是在静态方法处于&lt;strong&gt;不同的类&lt;/strong&gt;中的时候使用。Type表示静态方法所返回的对象类型：&lt;code&gt;FileStorefs = Files.getFileStore(path);&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;newType&lt;/code&gt;——像 &lt;code&gt;newInstance&lt;/code&gt; 一样，但是在静态方法处于&lt;strong&gt;不同的类&lt;/strong&gt;中的时候使用。&lt;code&gt;Type&lt;/code&gt;表示静态方法所返回的对象类型：&lt;code&gt;BufferedReader br = Files.newBufferedReader(path);&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;type&lt;/code&gt;——&lt;code&gt;getType&lt;/code&gt;和&lt;code&gt;newType&lt;/code&gt;的简版：&lt;code&gt;List&amp;lt; Complainty&amp;gt; litany= Collections.list(legacyLitany);&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

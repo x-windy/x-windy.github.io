@@ -1,18 +1,19 @@
 ---
-title: Goldydocs
+title: x-windy
 ---
 
-{{< blocks/cover title="Welcome to Goldydocs: A Docsy Example Project!" image_anchor="top" height="full" >}}
+{{< blocks/cover title="一个博客，记录学习" image_anchor="top" height="full" >}}
 <a class="btn btn-lg btn-primary me-3 mb-4" href="/docs/">
-  Learn More <i class="fas fa-arrow-alt-circle-right ms-2"></i>
+  开始阅读 <i class="fas fa-arrow-alt-circle-right ms-2"></i>
 </a>
-<a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/google/docsy-example">
-  Download <i class="fab fa-github ms-2 "></i>
+<a class="btn btn-lg btn-secondary me-3 mb-4" href="https://github.com/x-windy/x-windy.github.io">
+  笔记源码 <i class="fab fa-github ms-2 "></i>
 </a>
-<p class="lead mt-5">Porridge temperature assessment &mdash; in the cloud!</p>
+
+<p class="lead mt-5">学而不已，阖棺而止</p>
+
 {{< blocks/link-down color="info" >}}
 {{< /blocks/cover >}}
-
 
 {{% blocks/lead color="primary" %}}
 Goldydocs provides a single web UI providing visibility into porridge
@@ -69,7 +70,6 @@ For announcement of latest features etc.
 {{% /blocks/feature %}}
 
 {{% /blocks/section %}}
-
 
 {{% blocks/section %}}
 This is the another section
