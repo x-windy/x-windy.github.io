@@ -161,13 +161,13 @@ github_project_repo = "https://github.com/x-windy/x-windy.github.io"
 github_branch= "main"
 
 # Google Custom Search Engine ID. Remove or comment out to disable search.
-# gcs_engine_id = "45d5f1062f03b41c6"
+gcs_engine_id = "45d5f1062f03b41c6"
 
 # Enable Algolia DocSearch
 algolia_docsearch = false
 
 # Enable Lunr.js offline search
-offlineSearch = true
+offlineSearch = false
 offlineSearchSummaryLength = 200
 offlineSearchMaxResults = 25
 

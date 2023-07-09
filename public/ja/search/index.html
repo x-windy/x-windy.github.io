@@ -44,10 +44,6 @@
   src="https://code.jquery.com/jquery-3.6.3.min.js"
   integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
   crossorigin="anonymous"></script>
-<script defer
-  src="https://unpkg.com/lunr@2.3.9/lunr.min.js"
-  integrity="sha384-203J0SNzyqHby3iU6hzvzltrWi/M41wOP5Gu+BiJMz5nwKykbkUx8Kp7iti0Lpli"
-  crossorigin="anonymous"></script>
 
   </head>
   <body class="td-page">
@@ -74,19 +70,9 @@
       </ul>
   </div>
   <div class="d-none d-lg-block">
-    <div class="td-search td-search--offline">
+    <div class="td-search">
   <div class="td-search__icon"></div>
-  <input
-    type="search"
-    class="td-search__input form-control"
-    placeholder="サイトを検索..."
-    aria-label="サイトを検索..."
-    autocomplete="off"
-    
-    data-offline-search-index-json-src="/offline-search-index.json"
-    data-offline-search-base-href="/"
-    data-offline-search-max-results="25"
-  >
+  <input type="search" class="td-search__input form-control td-search-input" placeholder="サイトを検索..." aria-label="サイトを検索..." autocomplete="off">
 </div>
 
   </div>
@@ -98,6 +84,18 @@
         <section class="row td-search-result">
 <div class="col-12 col-md-8 offset-md-2">
 <h2 class="ms-4">Search Results</h2>
+<script>
+(function() {
+var cx = '45d5f1062f03b41c6';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+<gcse:searchresults-only></gcse:searchresults-only>
 </div>
 </section>
 
