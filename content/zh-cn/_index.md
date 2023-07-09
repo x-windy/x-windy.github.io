@@ -10,8 +10,7 @@ title: x-windy
   笔记源码 <i class="fab fa-github ms-2 "></i>
 </a>
 
-<p class="lead mt-5">学而不已，阖棺而止</p>
-
+<p class="lead mt-5"></p>
 {{< blocks/link-down color="info" >}}
 {{< /blocks/cover >}}
 

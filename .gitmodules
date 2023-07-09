@@ -1,0 +1,3 @@
+[submodule "themes/plugins-live2d"]
+	path = themes/plugins-live2d
+	url = https://github.com/fixit-theme/hugo-shortcode-plugins-live2d.git

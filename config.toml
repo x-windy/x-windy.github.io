@@ -10,11 +10,11 @@
 # if your project is using the required Hugo version.
 baseURL = "https://x-windy.github.io/"
 title = "x-windy"
-
+theme = ["docsy", "plugins-live2d"]
 # Language settings
 contentDir = "content/zh-cn"
 defaultContentLanguage = "zh-cn"
-defaultContentLanguageInSubdir = true
+defaultContentLanguageInSubdir = false
 # Useful when translating.
 enableMissingTranslationPlaceholders = true
 
