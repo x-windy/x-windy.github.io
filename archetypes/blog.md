@@ -4,7 +4,7 @@ linkTitle: ""
 author: "XW"
 authorLink: ""
 date: {{ .Date }}
-lastmod: {{ .Lastmod }}
+lastmod: ""
 description: ""
 draft: true
 ---
