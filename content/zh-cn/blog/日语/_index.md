@@ -1,4 +1,4 @@
 ---
 title: 日语
-weight: 30
+weight: 40
 ---
