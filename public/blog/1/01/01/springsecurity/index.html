@@ -1,0 +1,1217 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.115.1">
+<meta name="robots" content="index, follow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>SpringSecurity | x-windy</title>
+<meta name="description" content="SpringSecurity 权限管理 权限管理是管理系统中，针对不同用户对不同资源的访问权限进行控制的过程。
+只有授权用户才能访问敏感信息或执行的任务，从而保护系统的安全性和完整性
+权限管理通常包含的步骤：
+确认用户身份：用户登录，通过用户认证信息来验证用户身份。 为用户分配角色：为每个用户分配一个或多个角色，以确定他们能够访问哪些资源 为用户分配权限：为每个(用户/角色)分配一个或多个权限，以确定他们能够访问哪些资源。RBAC模型中，将权限分配给角色 管理权限：对资源进行权限控制，访问资源的用户必须具备需要的权限才能访问 权限管理相关概念 资源 可以是软件系统中任意存在的实体，如：访问目录、文件、数据库中的数据、方法等
+在B/S模式中，如：处理请求的方法(Servlet、Controller)、图片、HTML、JS、CSS等
+权限(privilege) B/S模式中，访问某一个URL的权限，在表中储存方式：
+ID 权限 资源名称 URL 1 用户管理权限 用户查询 /selectUser 2 用户管理权限 用户修改 /updateUser 3 用户管理权限 用户删除 /deleteUser 资源通常是同URL进行去控制权限，权限对应的某些资源，一个权限可以对应一个资源，也可以对应多个资源
+用户-角色-权限-资源
+主体(principal) 用户，用户拥有账号、密码、角色、权限等基本信息
+一个用户具备多个权限
+认证(authentication) 认证是权限管理系统判断用户(主体)身份是否合法的过程
+用户登录过程
+常见认证方式：账号密码认证、扫码认证、手机短信验证码认证、指纹识别等
+授权(authorization) 授权是将访问软件系统资源的权力授予主体的过程
+授权通过后，用户具备系统中访问特定功能的能力
+通常，先认证(登录)再授权，授权一般是为用户授予访问当前资源的权限
+用户登录后，在session中保存用户权限、角色等信息。
+用户在访问的时候，服务端获取用户的**权限列表(角色)**判断是否具有访问当前资源的权限（授权）。
+权限管理 权限管理是针对主题、全新啊、资源进行统一管理的方式
+用户的权限：系统超级管理员分配 或 升级(达到预期的某种条件)
+权限管理的实现 认证流程 账号密码 查询用户 用户是否存在 密码是否正确 查询用户具备的权限信息 保存用户的登录状态 登录成功 访问控制 用户访问/userDetail接口 从请求中获取用户唯一标识 从session中查询用户 用户是否存在(唯一标识、令牌) 用户是否具备访问当前资源的权限(权限列表) 放行访问 返回访问的资源 RBAC模型 传统权限模型 用户和权限为多对多关系，用中间表维护">
+<meta property="og:title" content="SpringSecurity" />
+<meta property="og:description" content="SpringSecurity 权限管理 权限管理是管理系统中，针对不同用户对不同资源的访问权限进行控制的过程。
+只有授权用户才能访问敏感信息或执行的任务，从而保护系统的安全性和完整性
+权限管理通常包含的步骤：
+确认用户身份：用户登录，通过用户认证信息来验证用户身份。 为用户分配角色：为每个用户分配一个或多个角色，以确定他们能够访问哪些资源 为用户分配权限：为每个(用户/角色)分配一个或多个权限，以确定他们能够访问哪些资源。RBAC模型中，将权限分配给角色 管理权限：对资源进行权限控制，访问资源的用户必须具备需要的权限才能访问 权限管理相关概念 资源 可以是软件系统中任意存在的实体，如：访问目录、文件、数据库中的数据、方法等
+在B/S模式中，如：处理请求的方法(Servlet、Controller)、图片、HTML、JS、CSS等
+权限(privilege) B/S模式中，访问某一个URL的权限，在表中储存方式：
+ID 权限 资源名称 URL 1 用户管理权限 用户查询 /selectUser 2 用户管理权限 用户修改 /updateUser 3 用户管理权限 用户删除 /deleteUser 资源通常是同URL进行去控制权限，权限对应的某些资源，一个权限可以对应一个资源，也可以对应多个资源
+用户-角色-权限-资源
+主体(principal) 用户，用户拥有账号、密码、角色、权限等基本信息
+一个用户具备多个权限
+认证(authentication) 认证是权限管理系统判断用户(主体)身份是否合法的过程
+用户登录过程
+常见认证方式：账号密码认证、扫码认证、手机短信验证码认证、指纹识别等
+授权(authorization) 授权是将访问软件系统资源的权力授予主体的过程
+授权通过后，用户具备系统中访问特定功能的能力
+通常，先认证(登录)再授权，授权一般是为用户授予访问当前资源的权限
+用户登录后，在session中保存用户权限、角色等信息。
+用户在访问的时候，服务端获取用户的**权限列表(角色)**判断是否具有访问当前资源的权限（授权）。
+权限管理 权限管理是针对主题、全新啊、资源进行统一管理的方式
+用户的权限：系统超级管理员分配 或 升级(达到预期的某种条件)
+权限管理的实现 认证流程 账号密码 查询用户 用户是否存在 密码是否正确 查询用户具备的权限信息 保存用户的登录状态 登录成功 访问控制 用户访问/userDetail接口 从请求中获取用户唯一标识 从session中查询用户 用户是否存在(唯一标识、令牌) 用户是否具备访问当前资源的权限(权限列表) 放行访问 返回访问的资源 RBAC模型 传统权限模型 用户和权限为多对多关系，用中间表维护" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://x-windy.github.io/blog/1/01/01/springsecurity/" /><meta property="article:section" content="blog" />
+
+
+<meta itemprop="name" content="SpringSecurity">
+<meta itemprop="description" content="SpringSecurity 权限管理 权限管理是管理系统中，针对不同用户对不同资源的访问权限进行控制的过程。
+只有授权用户才能访问敏感信息或执行的任务，从而保护系统的安全性和完整性
+权限管理通常包含的步骤：
+确认用户身份：用户登录，通过用户认证信息来验证用户身份。 为用户分配角色：为每个用户分配一个或多个角色，以确定他们能够访问哪些资源 为用户分配权限：为每个(用户/角色)分配一个或多个权限，以确定他们能够访问哪些资源。RBAC模型中，将权限分配给角色 管理权限：对资源进行权限控制，访问资源的用户必须具备需要的权限才能访问 权限管理相关概念 资源 可以是软件系统中任意存在的实体，如：访问目录、文件、数据库中的数据、方法等
+在B/S模式中，如：处理请求的方法(Servlet、Controller)、图片、HTML、JS、CSS等
+权限(privilege) B/S模式中，访问某一个URL的权限，在表中储存方式：
+ID 权限 资源名称 URL 1 用户管理权限 用户查询 /selectUser 2 用户管理权限 用户修改 /updateUser 3 用户管理权限 用户删除 /deleteUser 资源通常是同URL进行去控制权限，权限对应的某些资源，一个权限可以对应一个资源，也可以对应多个资源
+用户-角色-权限-资源
+主体(principal) 用户，用户拥有账号、密码、角色、权限等基本信息
+一个用户具备多个权限
+认证(authentication) 认证是权限管理系统判断用户(主体)身份是否合法的过程
+用户登录过程
+常见认证方式：账号密码认证、扫码认证、手机短信验证码认证、指纹识别等
+授权(authorization) 授权是将访问软件系统资源的权力授予主体的过程
+授权通过后，用户具备系统中访问特定功能的能力
+通常，先认证(登录)再授权，授权一般是为用户授予访问当前资源的权限
+用户登录后，在session中保存用户权限、角色等信息。
+用户在访问的时候，服务端获取用户的**权限列表(角色)**判断是否具有访问当前资源的权限（授权）。
+权限管理 权限管理是针对主题、全新啊、资源进行统一管理的方式
+用户的权限：系统超级管理员分配 或 升级(达到预期的某种条件)
+权限管理的实现 认证流程 账号密码 查询用户 用户是否存在 密码是否正确 查询用户具备的权限信息 保存用户的登录状态 登录成功 访问控制 用户访问/userDetail接口 从请求中获取用户唯一标识 从session中查询用户 用户是否存在(唯一标识、令牌) 用户是否具备访问当前资源的权限(权限列表) 放行访问 返回访问的资源 RBAC模型 传统权限模型 用户和权限为多对多关系，用中间表维护">
+
+<meta itemprop="wordCount" content="1002">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SpringSecurity"/>
+<meta name="twitter:description" content="SpringSecurity 权限管理 权限管理是管理系统中，针对不同用户对不同资源的访问权限进行控制的过程。
+只有授权用户才能访问敏感信息或执行的任务，从而保护系统的安全性和完整性
+权限管理通常包含的步骤：
+确认用户身份：用户登录，通过用户认证信息来验证用户身份。 为用户分配角色：为每个用户分配一个或多个角色，以确定他们能够访问哪些资源 为用户分配权限：为每个(用户/角色)分配一个或多个权限，以确定他们能够访问哪些资源。RBAC模型中，将权限分配给角色 管理权限：对资源进行权限控制，访问资源的用户必须具备需要的权限才能访问 权限管理相关概念 资源 可以是软件系统中任意存在的实体，如：访问目录、文件、数据库中的数据、方法等
+在B/S模式中，如：处理请求的方法(Servlet、Controller)、图片、HTML、JS、CSS等
+权限(privilege) B/S模式中，访问某一个URL的权限，在表中储存方式：
+ID 权限 资源名称 URL 1 用户管理权限 用户查询 /selectUser 2 用户管理权限 用户修改 /updateUser 3 用户管理权限 用户删除 /deleteUser 资源通常是同URL进行去控制权限，权限对应的某些资源，一个权限可以对应一个资源，也可以对应多个资源
+用户-角色-权限-资源
+主体(principal) 用户，用户拥有账号、密码、角色、权限等基本信息
+一个用户具备多个权限
+认证(authentication) 认证是权限管理系统判断用户(主体)身份是否合法的过程
+用户登录过程
+常见认证方式：账号密码认证、扫码认证、手机短信验证码认证、指纹识别等
+授权(authorization) 授权是将访问软件系统资源的权力授予主体的过程
+授权通过后，用户具备系统中访问特定功能的能力
+通常，先认证(登录)再授权，授权一般是为用户授予访问当前资源的权限
+用户登录后，在session中保存用户权限、角色等信息。
+用户在访问的时候，服务端获取用户的**权限列表(角色)**判断是否具有访问当前资源的权限（授权）。
+权限管理 权限管理是针对主题、全新啊、资源进行统一管理的方式
+用户的权限：系统超级管理员分配 或 升级(达到预期的某种条件)
+权限管理的实现 认证流程 账号密码 查询用户 用户是否存在 密码是否正确 查询用户具备的权限信息 保存用户的登录状态 登录成功 访问控制 用户访问/userDetail接口 从请求中获取用户唯一标识 从session中查询用户 用户是否存在(唯一标识、令牌) 用户是否具备访问当前资源的权限(权限列表) 放行访问 返回访问的资源 RBAC模型 传统权限模型 用户和权限为多对多关系，用中间表维护"/>
+
+
+
+
+<link rel="preload" href="/scss/main.min.6176d7d472a139a502a7c863de9bb7b87ef1ec9c271ff8f3d8ba4d983491b9ac.css" as="style">
+<link href="/scss/main.min.6176d7d472a139a502a7c863de9bb7b87ef1ec9c271ff8f3d8ba4d983491b9ac.css" rel="stylesheet" integrity="">
+
+<script
+  src="https://code.jquery.com/jquery-3.6.3.min.js"
+  integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+  crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-00000000-0"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'UA-00000000-0');
+}
+</script>
+  </head>
+  <body class="td-page td-blog">
+    <header>
+      <nav class="td-navbar navbar-dark js-navbar-scroll">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">x-windy</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" href="/blog/"><span>博客</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/docs/"><span>文档</span></a>
+      </li>
+      <li class="nav-item dropdown d-none d-lg-block">
+        <div class="dropdown">
+  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">中文</a>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="/en/">English</a></li>
+    <li><a class="dropdown-item" href="/ja/">日本語</a></li>
+    </ul>
+</div></li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    <div class="td-search">
+  <div class="td-search__icon"></div>
+  <input type="search" class="td-search__input form-control td-search-input" placeholder="站内搜索…" aria-label="站内搜索…" autocomplete="off">
+</div>
+
+  </div>
+</div>
+</nav>
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <form class="td-sidebar__search d-flex align-items-center">
+    <div class="td-search">
+  <div class="td-search__icon"></div>
+  <input type="search" class="td-search__input form-control td-search-input" placeholder="站内搜索…" aria-label="站内搜索…" autocomplete="off">
+</div>
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    <div class="td-sidebar-nav__section nav-item dropdown d-block d-lg-none">
+      <div class="dropdown">
+  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">中文</a>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="/en/">English</a></li>
+    <li><a class="dropdown-item" href="/ja/">日本語</a></li>
+    </ul>
+</div>
+    </div>
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-blog-li">
+  <a href="/blog/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-blog"><span class="">博客</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-blogjava-li">
+  <a href="/blog/java/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-blogjava"><span class="">Java</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101-li">
+  <a href="/blog/1/01/01/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101"><span class=""></span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101-li">
+  <a href="/blog/1/01/01/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101"><span class=""></span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101jwt-li">
+  <a href="/blog/1/01/01/jwt/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101jwt"><span class="">JWT</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101restful-li">
+  <a href="/blog/1/01/01/restful/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101restful"><span class="">RESTful</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101ruoyi-li">
+  <a href="/blog/1/01/01/ruoyi/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101ruoyi"><span class="">ruoyi</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-blog10101springsecurity-li">
+  <a href="/blog/1/01/01/springsecurity/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-blog10101springsecurity"><span class="td-sidebar-nav-active-item">SpringSecurity</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blogpython-li">
+  <a href="/blog/python/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-blogpython"><span class="">Python</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogspring-boot-li">
+  <a href="/blog/spring-boot/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-blogspring-boot"><span class="">Spring boot</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101ssm-li">
+  <a href="/blog/1/01/01/ssm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101ssm"><span class="">SSM</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-bloge697a5e8afad-li">
+  <a href="/blog/%E6%97%A5%E8%AF%AD/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-bloge697a5e8afad"><span class="">日语</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20230712spring-cloud-li">
+  <a href="/blog/2023/07/12/spring-cloud/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog20230712spring-cloud"><span class="">Spring Cloud</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101docker-li">
+  <a href="/blog/1/01/01/docker/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101docker"><span class="">Docker</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-bloghugo-li">
+  <a href="/blog/hugo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-bloghugo"><span class="">Hugo</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20230706e58786e5a487-li">
+  <a href="/blog/2023/07/06/%E5%87%86%E5%A4%87/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog20230706e58786e5a487"><span class="">准备</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101redis-li">
+  <a href="/blog/1/01/01/redis/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101redis"><span class="">Redis</span></a>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            
+<div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/x-windy/x-windy.github.io/tree/main/content/zh-cn/blog/Java/SpringSecurity.md" class="td-page-meta--view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> 查看页面源码</a>
+  <a href="https://github.com/x-windy/x-windy.github.io/edit/main/content/zh-cn/blog/Java/SpringSecurity.md" class="td-page-meta--edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> 编辑此页</a>
+  <a href="https://github.com/x-windy/x-windy.github.io/new/main/content/zh-cn/blog/Java/SpringSecurity.md?filename=change-me.md&amp;value=---%0D%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0D%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0D%0Aweight%3A&#43;100%0D%0Adescription%3A&#43;%3E-%0D%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0D%0A---%0D%0A%0D%0A%23%23&#43;Heading%0D%0A%0D%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0D%0A%0D%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0D%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0D%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0D%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0D%0A" class="td-page-meta--child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> 添加子页面</a>
+  <a href="https://github.com/x-windy/x-windy.github.io/issues/new?title=SpringSecurity" class="td-page-meta--issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> 提交文档问题</a>
+  <a href="https://github.com/x-windy/x-windy.github.io/issues/new" class="td-page-meta--project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> 提交项目问题</a>
+  <a id="print" href="https://x-windy.github.io/blog/java/_print/"><i class="fa-solid fa-print fa-fw"></i> 整节打印</a>
+
+</div>
+
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#springsecurity">SpringSecurity</a>
+      <ul>
+        <li><a href="#权限管理">权限管理</a></li>
+        <li><a href="#权限管理相关概念">权限管理相关概念</a></li>
+        <li><a href="#权限管理的实现">权限管理的实现</a></li>
+        <li><a href="#rbac模型">RBAC模型</a></li>
+        <li><a href="#rbac实现">RBAC实现</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+    
+            <div class="taxonomy taxonomy-terms-cloud taxo-tags">
+      <h5 class="taxonomy-title">标签云</h5>
+      <ul class="taxonomy-terms">
+        <li><a class="taxonomy-term" href="https://x-windy.github.io/tags/java/" data-taxonomy-term="java"><span class="taxonomy-label">Java</span><span class="taxonomy-count">2</span></a></li>
+        </ul>
+    </div>
+  <div class="taxonomy taxonomy-terms-cloud taxo-categories">
+      <h5 class="taxonomy-title">分类</h5>
+      <ul class="taxonomy-terms">
+        <li><a class="taxonomy-term" href="https://x-windy.github.io/categories/effective-java/" data-taxonomy-term="effective-java"><span class="taxonomy-label">Effective Java</span><span class="taxonomy-count">3</span></a></li>
+        <li><a class="taxonomy-term" href="https://x-windy.github.io/categories/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/" data-taxonomy-term="%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C"><span class="taxonomy-label">阿里巴巴Java开发手册</span><span class="taxonomy-count">1</span></a></li>
+        </ul>
+    </div>
+  
+	
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5 pe-md-4" role="main">
+            <a class="td-rss-button" title="RSS" href="https://x-windy.github.io/blog/java/index.xml" target="_blank" rel="noopener">
+              <i class="fa-solid fa-rss" aria-hidden="true"></i>
+            </a>
+            
+<div class="td-content">
+	<h1>SpringSecurity</h1>
+	
+	<div class="td-byline mb-4">
+		作者: <b>XW</b> |
+		<time datetime="0001-01-01" class="text-muted">0001-1-1 00:00:00 周一 下午</time>
+	</div>
+	<header class="article-meta">
+		
+  </header>
+	<h2 id="springsecurity">SpringSecurity</h2>
+<h3 id="权限管理">权限管理</h3>
+<blockquote>
+<p>权限管理是管理系统中，针对不同用户对不同<strong>资源</strong>的访问权限进行控制的<strong>过程</strong>。</p>
+<p>只有<strong>授权用户</strong>才能访问敏感信息或执行的任务，从而保护系统的安全性和完整性</p>
+</blockquote>
+<p>权限管理通常包含的步骤：</p>
+<ol>
+<li>确认用户身份：用户登录，通过用户认证信息来验证用户身份。</li>
+<li>为用户分配角色：为每个用户分配一个或多个角色，以确定他们能够访问哪些资源</li>
+<li>为用户分配权限：为每个(用户/角色)分配一个或多个权限，以确定他们能够访问哪些资源。RBAC模型中，将权限分配给角色</li>
+<li>管理权限：对资源进行权限控制，访问资源的用户必须具备需要的权限才能访问</li>
+</ol>
+<h3 id="权限管理相关概念">权限管理相关概念</h3>
+<h4 id="资源">资源</h4>
+<blockquote>
+<p>可以是软件系统中任意存在的实体，如：访问目录、文件、数据库中的数据、方法等</p>
+<p>在B/S模式中，如：处理请求的方法(Servlet、Controller)、图片、HTML、JS、CSS等</p>
+</blockquote>
+<h4 id="权限privilege">权限(privilege)</h4>
+<blockquote>
+<p>B/S模式中，访问某一个URL的权限，在表中储存方式：</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>权限</th>
+<th>资源名称</th>
+<th>URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>用户管理权限</td>
+<td>用户查询</td>
+<td>/selectUser</td>
+</tr>
+<tr>
+<td>2</td>
+<td>用户管理权限</td>
+<td>用户修改</td>
+<td>/updateUser</td>
+</tr>
+<tr>
+<td>3</td>
+<td>用户管理权限</td>
+<td>用户删除</td>
+<td>/deleteUser</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>资源通常是同URL进行去控制权限，权限对应的某些资源，一个权限可以对应一个资源，也可以对应多个资源</p>
+</blockquote>
+<p>用户-角色-权限-资源</p>
+<h4 id="主体principal">主体(principal)</h4>
+<blockquote>
+<p>用户，用户拥有账号、密码、角色、权限等基本信息</p>
+<p>一个用户具备多个权限</p>
+</blockquote>
+<h4 id="认证authentication">认证(authentication)</h4>
+<blockquote>
+<p>认证是权限管理系统判断用户(主体)身份是否合法的过程</p>
+<p>用户登录过程</p>
+</blockquote>
+<p>常见认证方式：账号密码认证、扫码认证、手机短信验证码认证、指纹识别等</p>
+<h4 id="授权authorization">授权(authorization)</h4>
+<blockquote>
+<p>授权是将访问软件系统资源的<strong>权力</strong>授予<strong>主体</strong>的过程</p>
+<p>授权通过后，用户具备系统中访问特定功能的能力</p>
+<p>通常，<strong>先认证(登录)再授权</strong>，授权一般是为用户授予访问当前资源的权限</p>
+</blockquote>
+<p>用户登录后，在session中保存用户权限、角色等信息。</p>
+<p>用户在访问的时候，服务端获取用户的**权限列表(角色)**判断是否具有访问当前资源的权限（授权）。</p>
+<h4 id="权限管理-1">权限管理</h4>
+<blockquote>
+<p>权限管理是针对主题、全新啊、资源进行统一管理的方式</p>
+</blockquote>
+<p>用户的权限：系统超级管理员分配 或 升级(达到预期的某种条件)</p>
+<h3 id="权限管理的实现">权限管理的实现</h3>
+<h4 id="认证流程">认证流程</h4>
+<ol>
+<li>账号密码</li>
+<li>查询用户</li>
+<li><strong>用户是否存在</strong></li>
+<li><strong>密码是否正确</strong></li>
+<li>查询用户具备的权限信息</li>
+<li>保存用户的登录状态</li>
+<li>登录成功</li>
+</ol>
+<h4 id="访问控制">访问控制</h4>
+<ol start="8">
+<li>用户访问<code>/userDetail</code>接口</li>
+<li>从请求中获取用户唯一标识</li>
+<li>从session中查询用户</li>
+<li><strong>用户是否存在</strong>(唯一标识、令牌)</li>
+<li><strong>用户是否具备访问当前资源的权限</strong>(权限列表)</li>
+<li>放行访问</li>
+<li>返回访问的资源</li>
+</ol>
+<h3 id="rbac模型">RBAC模型</h3>
+<h4 id="传统权限模型">传统权限模型</h4>
+<p>用户和权限为多对多关系，用中间表维护</p>
+<table>
+<thead>
+<tr>
+<th>用户ID</th>
+<th>权限ID</th>
+</tr>
+</thead>
+</table>
+<p>缺点：操作维护麻烦</p>
+<h4 id="rbac模型-1">RBAC模型</h4>
+<blockquote>
+<p>基于角色的访问控制(Role-Based Access Control)</p>
+<p>是一套成熟的权限模型</p>
+<p>可以使用权限框架整合RBAC模型实现</p>
+</blockquote>
+<p>将权限赋予角色，再将角色赋予用户</p>
+<p>让维护权限关系的行为变的更加简单</p>
+<blockquote>
+<p>在RBAC模型设计中，根据权限的复杂程度，可分为<strong>RBAC0、RBAC1、RBAC2、RBAC3</strong>四个级别。</p>
+</blockquote>
+<p>RBAC0是基础，也叫RBAC模型，RBAC1、RBAC2、RBAC3都是RBAC0为基础的升级。</p>
+<p>传统权限模型：</p>
+<p>用户——权限</p>
+<p>RBAC权限模型：</p>
+<p>用户——角色——权限</p>
+<h5 id="rbac0">RBAC0</h5>
+<blockquote>
+<p>用户n——m角色n——m权限(多对多关系)</p>
+</blockquote>
+<p><strong>用户表—中间表—角色表—中间表—权限表</strong></p>
+<h5 id="rbac1">RBAC1</h5>
+<blockquote>
+<p>在角色中引入继承的概念，将角色分成几个等级，每个等级权限不同，从而实现更细粒度的权限管理</p>
+</blockquote>
+<p>用户n——m角色(等级1、等级2、等级3)n——m权限(多对多关系)</p>
+<p>部门经理细分：经理、副经理</p>
+<p>进行细粒度的拆分控制</p>
+<h5 id="rbac2">RBAC2</h5>
+<blockquote>
+<p>仅是对用户、角色和权限三者增加了一些限制。</p>
+<p>可分为两类：<strong>静态职责分离SSD</strong>(Static Separation of Duty) 和 <strong>动态职责分离DSD</strong>(Dynamic Separation of Duty)。</p>
+</blockquote>
+<p><strong>静态职责分离SSD：</strong></p>
+<ul>
+<li>互斥角色限制：同一个用户在<strong>两个互斥角色</strong>中只能选择<strong>一个</strong>，例如:在为员工分类角色时，<strong>不可以</strong>把<strong>财务</strong>和<strong>出纳</strong>分配给同一个人。</li>
+<li>基数限制：一个用户拥有的<strong>角色</strong>是<strong>有限的</strong>，一个角色拥有的<strong>权限</strong>也是<strong>有限的</strong>。这很好理解，<strong>根据实际业务决定</strong>，想想给一个用户无限添加角色、权限也未必是合理的。</li>
+<li>先决条件限制：用户想要获得<strong>更高级的角色</strong>，首先必须拥有<strong>低级角色</strong>，这样做的好处就是，<strong>不需要</strong>为高级角色<strong>重新分配</strong>一遍<strong>低级角色</strong>具备的所有权限，例如: 赋予用户部门经理角色，<strong>预先赋予该用户一线员工、小组长等角色</strong>。</li>
+</ul>
+<p><strong>动态职责分离DSD：</strong></p>
+<ul>
+<li>
+<p>动态的限制用户拥有的角色，比如，一个用户可以拥有多个角色，但<strong>运行时只能激活一个角色</strong></p>
+<p>例如：曾经我在某机构做<strong>课程研究员</strong>，登录公司的教学管理平台后，左侧菜单显示的是<strong>课程研究员的权限列表</strong>。当我被派往学院授课，于是我就具备了<strong>讲师的角色</strong>，讲师角色拥有的权限与<strong>课程研究员角色</strong>拥有的权限列表是<strong>不一样的。</strong></p>
+<p>并且我如果以<strong>课程研究员</strong>的角色<strong>去操作讲师角色特有的权限</strong>，是不是也<strong>不合适</strong>?</p>
+<p>于是在项目的右上角有一个<strong>切换角色的选项</strong>，切换成不同的角色，左侧菜单<strong>显示对应的菜单列表</strong></p>
+</li>
+</ul>
+<h5 id="统一模型rbac3">统一模型RBAC3</h5>
+<blockquote>
+<p><strong>RBAC3 = RBAC1 + RBAC2</strong></p>
+<p>既有角色分层，也包含可以曾各种限制</p>
+</blockquote>
+<p>只在系统对权限要求非常复杂时，才考虑使用此权限模型</p>
+<p>场景：OA办公自动化系统、生产制造</p>
+<h4 id="基于rbac的延展用户组">基于RBAC的延展——用户组</h4>
+<blockquote>
+<p>直接给用户组分配角色，再吧用户加入用户组。(Linux用户组)</p>
+<p>用户除了拥有自身的权限外，还拥有了所属用户组的所有权限</p>
+</blockquote>
+<p>用户——用户组——角色——权限</p>
+<h3 id="rbac实现">RBAC实现</h3>
+<ul>
+<li>手动编码</li>
+<li>shiro框架</li>
+<li>springSecurity框架</li>
+</ul>
+<h4 id="rbac数据模型">RBAC数据模型</h4>
+<center>用户表user</center>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段</th>
+<th>类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户ID</td>
+<td>id</td>
+<td>int</td>
+<td>主键</td>
+</tr>
+<tr>
+<td>用户名</td>
+<td>username</td>
+<td>varchar(20)</td>
+<td>not null</td>
+</tr>
+<tr>
+<td>密码</td>
+<td>password</td>
+<td>varchar(100)</td>
+<td>not null</td>
+</tr>
+<tr>
+<td>电子邮箱</td>
+<td>email</td>
+<td>varchar(30)</td>
+<td>not null</td>
+</tr>
+</tbody>
+</table>
+<center>角色表roles</center>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段</th>
+<th>类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>角色ID</td>
+<td>id</td>
+<td>int</td>
+<td>外键</td>
+</tr>
+<tr>
+<td>角色名称</td>
+<td>name</td>
+<td>varchar(20)</td>
+<td>not null</td>
+</tr>
+</tbody>
+</table>
+<center>权限表permissions</center>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段</th>
+<th>类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>权限ID</td>
+<td>id</td>
+<td>int</td>
+<td>主键</td>
+</tr>
+<tr>
+<td>权限名称</td>
+<td>name</td>
+<td>varchar(20)</td>
+<td>not null</td>
+</tr>
+<tr>
+<td>权限描述</td>
+<td>description</td>
+<td>varchar(20)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<center>角色——权限关联表role_permissions</center>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段</th>
+<th>类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>角色ID</td>
+<td>role_id</td>
+<td>int</td>
+<td>外键role(id)</td>
+</tr>
+<tr>
+<td>权限ID</td>
+<td>permission_id</td>
+<td>int</td>
+<td>外键permissions(id)</td>
+</tr>
+</tbody>
+</table>
+<center>用户——角色关联表user_roles</center>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段</th>
+<th>类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>用户ID</td>
+<td>user_id</td>
+<td>int</td>
+<td>外键user(id)</td>
+</tr>
+<tr>
+<td>角色ID</td>
+<td>role_id</td>
+<td>int</td>
+<td>外键roles(id)</td>
+</tr>
+</tbody>
+</table>
+<p>menu</p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>字段</th>
+<th>类型</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>菜单ID</td>
+<td>id</td>
+<td>int</td>
+<td></td>
+</tr>
+<tr>
+<td>菜单名</td>
+<td>menu_name</td>
+<td>varchar</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="登录应用">登录应用</h4>
+<ol>
+<li>用户登录成功后</li>
+<li>查询用户角色</li>
+<li>查询用户权限</li>
+<li>缓存用户数据到<code>Session</code>或<code>Redis</code></li>
+<li>用户访问资源，发送token</li>
+<li>从redis查询token并获取用户数据</li>
+<li>判断访问资源是否受限**(需不需要登录后才能访问)**</li>
+<li>受限则判断用户是否具备访问权限，具备则<strong>响应资源</strong>，不具备，<strong>拒绝访问</strong></li>
+</ol>
+<h4 id="spring-security3x">Spring Security3.X</h4>
+<blockquote>
+<p>是一个功能强大且高度可定制的<strong>身份认证和访问控制框架</strong>，用于Java应用程序提供<strong>身份认证</strong>和<strong>授权</strong></p>
+<p>它是用于保护基于Spring程序的安全框架</p>
+</blockquote>
+<h5 id="入门">入门</h5>
+<p><a href="https://docs.spring.io/spring-security/reference/">Spring Security :: Spring Security</a></p>
+<blockquote>
+<p>开发环境：<strong>JDK17以上、SpringBoot3.X、SpringSecurity6.X</strong></p>
+</blockquote>
+<h4 id="spring-security2x">Spring Security2.X</h4>
+<p>原理：一个过滤器链</p>
+<p>监听器》过滤器链》dispatcherservlet(前置过滤器》mapperHandle》后置拦截器》最终拦截器)</p>
+<blockquote>
+<p>请求</p>
+<ol>
+<li>
+<p>UsernamePasswordAuthenticationFilter</p>
+</li>
+<li>
+<p>ExceptionTranslationFilter</p>
+</li>
+<li>
+<p>FilterSecurityInterceptor</p>
+</li>
+</ol>
+<p>API</p>
+<ol>
+<li>
+<p>FilterSecurityInterceptor</p>
+</li>
+<li>
+<p>ExceptionTranslationFilter</p>
+</li>
+<li>
+<p>UsernamePasswordAuthenticationFilter</p>
+</li>
+</ol>
+<p>响应</p>
+</blockquote>
+<p><code>UsernamePasswordAuthenticationFilter</code>：负责处理我们在登录页面填写了用户名密码后的登录请求。(认证)</p>
+<p><code>ExceptionTranslationFilter</code>：处理过滤链抛出的任何<code>AccessDeniedException</code>和<code>AutheenticationException</code></p>
+<p><code>FilterSecurityInterceptor</code>：负责权限校验的过滤器</p>
+<h5 id="认证流程-1">认证流程</h5>
+<ol>
+<li>
+<p><code>UsernamePasswordAuthenticationFilter</code>(重写，登录控制器调用<code>authenticate</code>方法)</p>
+</li>
+<li>
+<p><code>ProviderManager</code>(<code>AuthenticationManager</code>接口)的<code>authenticate</code>方法进行用户认证</p>
+</li>
+<li>
+<p><code>DaoAuthenticationProvider</code> 调用<code>loadUserByUsername</code>方法</p>
+</li>
+<li>
+<p><code>InMenoryUserDetailsManager</code>(<code>UserDetailsService</code>接口)(<code>UserDetailsServiceImpl</code>实现接口重写，从数据库查询)<code>loadUserByUsername</code>方法获取用户信息和用户权限</p>
+</li>
+</ol>
+<p>概念：</p>
+<p><code>Authentication</code>接口: 它的实现类，表示当前访问系统的用户，封装了用户相关信息。</p>
+<p><code>AuthenticationManager</code>接口: 定义了认证<code>Authentication</code>的方法</p>
+<p><code>UserDetailsService</code>接口: 加载用户特定数据的核心接口。里面定义了一个根据用户名查询用户信息的方法。</p>
+<p><code>UserDetails</code>接口: 提供核心用户信息，通过<code>UserDetailsService</code>根据用户名获取处理的用户信息要封装成<code>UserDetails</code>对象返回。然后将这些信息封装到<code>Authentication</code>对象中</p>
+<p>Jwt认证过滤器</p>
+<ol>
+<li>
+<p>获取token</p>
+</li>
+<li>
+<p>解析token</p>
+</li>
+<li>
+<p>获取<code>userid</code>，从<code>redis</code>中获取用户信息(key:userid value:用户信息)</p>
+</li>
+<li>
+<p>封装<code>Autehntication</code>对象存入<code>SecurityContextHolder</code></p>
+</li>
+</ol>
+<p>其它过滤器</p>
+<p>从<code>SecurityContextHolder</code>中获取当前请求用户信息</p>
+<h5 id="实战">实战</h5>
+<p>登录</p>
+<ol>
+<li>自定义登录接口，调用ProviderManager的方法进行认证(登录)</li>
+<li>自定义UserDetailsService，查询数据库</li>
+</ol>
+<p>校验</p>
+<ol>
+<li>自定义Jwt认证过滤</li>
+<li>获取token</li>
+<li>解析token获取userid</li>
+<li>从redis获取用户信息</li>
+<li>存入SecurityContextHolder</li>
+</ol>
+<p>重写<code>UserDetails</code>实现类</p>
+<blockquote>
+<p><code>UserDetailsService</code>接口<code>loadUserByUsername</code>方法的返回对象</p>
+<p>由<code>DaoAuthenticationProvider</code>调用</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#5c35cc;font-weight:bold">@Data</span>
+</span></span><span style="display:flex;"><span><span style="color:#5c35cc;font-weight:bold">@NoArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#5c35cc;font-weight:bold">@AllArgsConstructor</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">LoginUser</span> <span style="color:#204a87;font-weight:bold">implements</span> <span style="color:#000">UserDetails</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 用户ID
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">Long</span> <span style="color:#000">userId</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 用户唯一标识
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">String</span> <span style="color:#000">token</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 登录时间
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">Long</span> <span style="color:#000">loginTime</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 过期时间
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">Long</span> <span style="color:#000">expireTime</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 登录IP地址
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">String</span> <span style="color:#000">ipaddr</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 登录地点
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">String</span> <span style="color:#000">loginLocation</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 浏览器类型
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">String</span> <span style="color:#000">browser</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 操作系统
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">String</span> <span style="color:#000">os</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 权限列表
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">Set</span><span style="color:#ce5c00;font-weight:bold">&lt;</span><span style="color:#000">String</span><span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#000">permissions</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 用户信息
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">User</span> <span style="color:#000">user</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">Collection</span><span style="color:#ce5c00;font-weight:bold">&lt;?</span> <span style="color:#204a87;font-weight:bold">extends</span> <span style="color:#000">GrantedAuthority</span><span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#000">getAuthorities</span><span style="color:#ce5c00;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">null</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">String</span> <span style="color:#000">getPassword</span><span style="color:#ce5c00;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">user</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">getPassword</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">String</span> <span style="color:#000">getUsername</span><span style="color:#ce5c00;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">user</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">getUsername</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">boolean</span> <span style="color:#000">isAccountNonExpired</span><span style="color:#ce5c00;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">true</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">boolean</span> <span style="color:#000">isAccountNonLocked</span><span style="color:#ce5c00;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">true</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">boolean</span> <span style="color:#000">isCredentialsNonExpired</span><span style="color:#ce5c00;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">true</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">boolean</span> <span style="color:#000">isEnabled</span><span style="color:#ce5c00;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">true</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span></code></pre></div><p>重写<code>UserDetailsService</code>实现类</p>
+<blockquote>
+<p>原<code>SpringSecurity</code>的实现类是从内存中查询用户信息</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#5c35cc;font-weight:bold">@Service</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">UserDetailsServiceImpl</span> <span style="color:#204a87;font-weight:bold">implements</span> <span style="color:#000">UserDetailsService</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">UserMapper</span> <span style="color:#000">userMapper</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">UserDetails</span> <span style="color:#000">loadUserByUsername</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">String</span> <span style="color:#000">username</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">throws</span> <span style="color:#000">UsernameNotFoundException</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">LambdaQueryWrapper</span><span style="color:#ce5c00;font-weight:bold">&lt;</span><span style="color:#000">User</span><span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#000">queryWrapper</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">LambdaQueryWrapper</span><span style="color:#ce5c00;font-weight:bold">&lt;&gt;();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">queryWrapper</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">eq</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">User</span><span style="color:#ce5c00;font-weight:bold">::</span><span style="color:#000">getUsername</span><span style="color:#ce5c00;font-weight:bold">,</span><span style="color:#000">username</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">// 查询用户信息
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>        <span style="color:#000">User</span> <span style="color:#000">user</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">userMapper</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">selectOne</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">queryWrapper</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">Objects</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">isNull</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">user</span><span style="color:#ce5c00;font-weight:bold">)){</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">throw</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">UsernameNotFoundException</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#4e9a06">&#34;用户名或者密码错误&#34;</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">//TODO 查询用户的权限信息
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">// 吧数据封装成UserDetails返回
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>        <span style="color:#000">LoginUser</span> <span style="color:#000">loginUser</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">LoginUser</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">loginUser</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">setUser</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">user</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">loginUser</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span></code></pre></div><h5 id="配置类">配置类</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"> * SpringSecurity配置类
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"> * @Author: zq
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"> * @Date: 2023/08/04/2:14
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"> * @Description:
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"> */</span>
+</span></span><span style="display:flex;"><span><span style="color:#5c35cc;font-weight:bold">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#5c35cc;font-weight:bold">@EnableWebSecurity</span> <span style="color:#8f5902;font-style:italic">// 添加 security 过滤器
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#5c35cc;font-weight:bold">@EnableGlobalMethodSecurity</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">prePostEnabled</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">true</span><span style="color:#ce5c00;font-weight:bold">)</span>	<span style="color:#8f5902;font-style:italic">// 启用方法级别的权限认证
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">SpringSecurityConfig</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">    * 用户密码加密工具，注入容器
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">    * $2a(bcrypt加密版本号)$10(cost的值) 加密方式+ 盐(22位) + 密文
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">    * $2a$10xxxxx/xxxxx/xxxx
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">    * */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">AuthenticationConfiguration</span> <span style="color:#000">authenticationConfiguration</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">JwtAuthFilter</span> <span style="color:#000">jwtAuthFilter</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// 认证异常处理
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#5c35cc;font-weight:bold">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">AuthenticationEntryPoint</span> <span style="color:#000">authenticationEntryPoint</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// 授权异常处理
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#5c35cc;font-weight:bold">@Autowired</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">AccessDeniedHandler</span> <span style="color:#000">accessDeniedHandler</span><span style="color:#ce5c00;font-weight:bold">;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 获取AuthenticationManager（认证管理器），登录时认证使用
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * @return
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * @throws Exception
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">AuthenticationManager</span> <span style="color:#000">getAuthenticationManagerBean</span><span style="color:#ce5c00;font-weight:bold">()</span> <span style="color:#204a87;font-weight:bold">throws</span> <span style="color:#000">Exception</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">authenticationConfiguration</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">getAuthenticationManager</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 用户密码加密方式配置
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * @return
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">PasswordEncoder</span> <span style="color:#000">getPasswordEncoderBean</span><span style="color:#ce5c00;font-weight:bold">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">BCryptPasswordEncoder</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 配置类
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * @param http
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * @return
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">SecurityFilterChain</span> <span style="color:#000">filterChain</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">HttpSecurity</span> <span style="color:#000">http</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">throws</span> <span style="color:#000">Exception</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">http</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#8f5902;font-style:italic">// 基于 token，不需要 csrf
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">csrf</span><span style="color:#ce5c00;font-weight:bold">().</span><span style="color:#c4a000">disable</span><span style="color:#ce5c00;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#8f5902;font-style:italic">// 基于 token，不需要 session
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">sessionManagement</span><span style="color:#ce5c00;font-weight:bold">().</span><span style="color:#c4a000">sessionCreationPolicy</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">SessionCreationPolicy</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">STATELESS</span><span style="color:#ce5c00;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">and</span><span style="color:#ce5c00;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#8f5902;font-style:italic">// 下面开始设置权限
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">authorizeRequests</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">authorize</span> <span style="color:#ce5c00;font-weight:bold">-&gt;</span> <span style="color:#000">authorize</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#8f5902;font-style:italic">// 请求,允许匿名访问(登录后不能访问)
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>                        <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">antMatchers</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#4e9a06">&#34;/user/login&#34;</span><span style="color:#ce5c00;font-weight:bold">).</span><span style="color:#c4a000">anonymous</span><span style="color:#ce5c00;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">antMatchers</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#4e9a06">&#34;/user/register&#34;</span><span style="color:#ce5c00;font-weight:bold">).</span><span style="color:#c4a000">anonymous</span><span style="color:#ce5c00;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">antMatchers</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#4e9a06">&#34;/captcha/*&#34;</span><span style="color:#ce5c00;font-weight:bold">).</span><span style="color:#c4a000">anonymous</span><span style="color:#ce5c00;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">//                        .antMatchers(&#34;/vaccinum-type/list&#34;).permitAll()
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>                        <span style="color:#8f5902;font-style:italic">// 其他地址的访问均需验证权限
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>                        <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">anyRequest</span><span style="color:#ce5c00;font-weight:bold">().</span><span style="color:#c4a000">authenticated</span><span style="color:#ce5c00;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ce5c00;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#8f5902;font-style:italic">// 在 UsernamePasswordAuthenticationFilter.class 过滤器之前
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>                <span style="color:#8f5902;font-style:italic">// 添加 JWT 过滤器，JWT 过滤器在用户名密码认证过滤器之前
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">addFilterBefore</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">jwtAuthFilter</span><span style="color:#ce5c00;font-weight:bold">,</span> <span style="color:#000">UsernamePasswordAuthenticationFilter</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">class</span><span style="color:#ce5c00;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">//                // 认证用户时用户信息加载配置，注入springAuthUserService
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">//                .userDetailsService(userDetailsService)
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">exceptionHandling</span><span style="color:#ce5c00;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">authenticationEntryPoint</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">authenticationEntryPoint</span><span style="color:#ce5c00;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">accessDeniedHandler</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">accessDeniedHandler</span><span style="color:#ce5c00;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">and</span><span style="color:#ce5c00;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">cors</span><span style="color:#ce5c00;font-weight:bold">()</span>     <span style="color:#8f5902;font-style:italic">// 允许跨域访问
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">and</span><span style="color:#ce5c00;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">build</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * 配置跨源访问(CORS)
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     * @return
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">     */</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">//    @Bean
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">//    CorsConfigurationSource corsConfigurationSource() {
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">//        source.registerCorsConfiguration(&#34;/**&#34;, new CorsConfiguration().applyPermitDefaultValues());
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">//        return source;
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">//    }
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#5c35cc;font-weight:bold">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">class</span> <span style="color:#000">SpringSecurityConfig</span> <span style="color:#204a87;font-weight:bold">extends</span> <span style="color:#000">WebSecurityConfigurerAdapter</span><span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">    * 用户密码加密工具，注入容器
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">    * */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#5c35cc;font-weight:bold">@Bean</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">PasswordEncoder</span> <span style="color:#000">getPasswordEncoder</span><span style="color:#ce5c00;font-weight:bold">(){</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">BCryptPasswordEncoder</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span></code></pre></div><h5 id="密码加密">密码加密</h5>
+<p>SpringSeurity默认使用PasswordEncoder，要求数据库密码格式：{id}passowrd，根据id判断密码的加密方式。{noop}明文存储</p>
+<p>SpringSeurity推荐使用<code>BCryptPasswordEncoder</code>加密方式</p>
+<pre tabindex="0"><code>/**
+ * SpringSecurity配置类
+ * @Author: zq
+ * @Date: 2023/08/04/2:14
+ * @Description:
+ */
+@Configuration
+@EnableWebSecurity
+public class SpringSecurityConfig {
+    /*
+    * 用户密码工具
+    * */
+    @Bean
+    public PasswordEncoder getPasswordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+}
+</code></pre><h5 id="jwt验证拦截器">JWT验证拦截器</h5>
+<pre tabindex="0"><code>/**
+ * 访问验证拦截器
+ * @Author: zq
+ * @Date: 2023/08/04/2:14
+ * @Description:
+ */
+@Component
+public class JwtAuthFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    /*
+    * 对用户访问资源的HTTP请求头处理
+    * */
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        // 获取请求头的token
+        String token = request.getHeader(&#34;token&#34;);
+//        if (!request.getMethod().equals(&#34;OPTIONS&#34;)) {
+//            token = request.getHeader(&#34;token&#34;);
+//            if (!StringUtils.hasText(token)) {
+//                token = request.getParameter(&#34;token&#34;);
+//                chain.doFilter(request, response);
+//                return;
+//            }
+//        }
+        // token为空,放行=&gt;UsernamePasswordAuthenticationFilter,进行登录验证
+        if (!StringUtils.hasText(token)) {
+            chain.doFilter(request, response);
+            return;
+        }
+
+
+        Claims claims = JwtTokenUtil.parseToken(token);
+        // 从token里获取Token Key
+        String tokenKey = (String) claims.get(Constants.LOGIN_USER_KEY);
+        System.out.println(&#34;tokenKey:&#34; + tokenKey);
+        // 根据Token Key从redis获取用户信息
+        String redisTokenKey = Constants.LOGIN_TOKENS + tokenKey;
+        System.out.println(&#34;redisTokenKey:&#34; + tokenKey);
+        LoginUser loginUser = (LoginUser) redisTemplate.opsForValue().get(redisTokenKey);
+//        LoginUser loginUser = redisCache.getCacheObject(redisTokenKey);
+        // 如果redis找不到，说明用户未登录
+        if (Objects.isNull(loginUser)){
+            throw new UnauthenticatedException(&#34;用户未登录&#34;);
+        }
+        // 获取权限信息
+        Collection&lt;? extends GrantedAuthority&gt; authorities = loginUser.getAuthorities();
+        // 用户主体，凭证，是否已验证(默认true)
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, authorities);
+        // 授权失败，token为空
+        if (authenticationToken == null){
+            chain.doFilter(request,response);
+            return;
+        }
+        // 如果由授权，放到权限上下文中
+        // 将权限信息封装到Authentication中
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        chain.doFilter(request,response);
+    }
+
+}
+</code></pre><h5 id="登录服务">登录服务</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>   <span style="color:#204a87;font-weight:bold">try</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#8f5902;font-style:italic">// 调用authenticate方法进行认证
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>            <span style="color:#8f5902;font-style:italic">// 认证主体(用户名)、凭证(密码)
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>            <span style="color:#000">UsernamePasswordAuthenticationToken</span> <span style="color:#000">authenticationToken</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">UsernamePasswordAuthenticationToken</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">username</span><span style="color:#ce5c00;font-weight:bold">,</span><span style="color:#000">password</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8f5902;font-style:italic">// AuthenticationManager进行用户认证，该方法会去调用UserDetailsServiceImpl.loadUserByUsername方法
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>            <span style="color:#000">Authentication</span> <span style="color:#000">authenticate</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">authenticationManager</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">authenticate</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">authenticationToken</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#000">loginUser</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">LoginUser</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#000">authenticate</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">getPrincipal</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#8f5902;font-style:italic">// 认证未通过，会抛出异常
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>        <span style="color:#ce5c00;font-weight:bold">}</span><span style="color:#204a87;font-weight:bold">catch</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">Exception</span> <span style="color:#000">e</span><span style="color:#ce5c00;font-weight:bold">){</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">e</span> <span style="color:#204a87;font-weight:bold">instanceof</span> <span style="color:#000">BadCredentialsException</span><span style="color:#ce5c00;font-weight:bold">){</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#204a87;font-weight:bold">throw</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">UserPasswordNotMatchException</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span></code></pre></div><h5 id="登录接口">登录接口</h5>
+<p><a href="https://blog.csdn.net/qq_41340258/article/details/125138902">Spring Security 5.7 最新配置细节（直接就能用），WebSecurityConfigurerAdapter 已废弃_websecurityconfigureradapter作废_江帅帅的博客-CSDN博客</a></p>
+<pre tabindex="0"><code>// 接口权限设置
+@PreAuthorize(&#34;hasAuthority(&#39;sys:user:list&#39;)&#34;)
+hasAnyAuthority()
+hasRole()  // ROLE_ + d
+</code></pre><h5 id="异常处理">异常处理</h5>
+<p>认证或者授权的过程出现异常会被：<code>ExceptionTranslationFilter</code>捕获，在<code>ExceptionTranslationFilter</code>会判断是认证失败还是授权失败出现的异常</p>
+<p>认证过程中出现的异常：<code>AuthenticationException</code>然后调用<code>AuthenticationEntryPoint</code>对象的方法去进行异常处理</p>
+<p>授权过程中出现的异常：<code>AccessDeniedException</code>然后去调用<code>AccessDeniedHandler</code>对象的方法去进行异常处理</p>
+<p>自定义实现类</p>
+<p>实现<code>AuthenticationEntryPoint</code>和<code>AccessDeniedHandler</code>两个接口</p>
+<pre tabindex="0"><code>
+/**
+ * 认证失败异常处理
+ * @Author: zq
+ * @Date: 2023/08/08/13:35
+ * @Description:
+ */
+@Component
+public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        JsonResult jsonResult = new JsonResult(Constants.UNAUTHORIZED,&#34;用户认证未通过请重新登录&#34;);
+        String json = new ObjectMapper().writeValueAsString(jsonResult);
+        WebUtils.renderString(response,json);
+    }
+}
+</code></pre><p>配置给SpringSecurity</p>
+
+	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
+  <li>
+    <a class="btn btn-primary disabled"><span class="me-1">←</span>上一页</a>
+  </li>
+  <li>
+    <a href="/blog/1/01/01/ruoyi/" aria-label="下一页 - ruoyi" class="btn btn-primary">下一页<span class="ms-1">→</span></a>
+  </li>
+</ul>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="User mailing list" aria-label="User mailing list">
+    <a target="_blank" rel="noopener" href="https://example.org/mail" aria-label="User mailing list">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="Twitter" aria-label="Twitter">
+    <a target="_blank" rel="noopener" href="https://example.org/twitter" aria-label="Twitter">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="Stack Overflow" aria-label="Stack Overflow">
+    <a target="_blank" rel="noopener" href="https://example.org/stack" aria-label="Stack Overflow">
+      <i class="fab fa-stack-overflow"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+      </div>
+      <div class="col-6 col-sm-4 text-end text-xs-center order-sm-3">
+        
+        
+        
+<ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a target="_blank" rel="noopener" href="https://github.com/x-windy/" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="Slack" aria-label="Slack">
+    <a target="_blank" rel="noopener" href="https://example.org/slack" aria-label="Slack">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="Developer mailing list" aria-label="Developer mailing list">
+    <a target="_blank" rel="noopener" href="https://example.org/mail" aria-label="Developer mailing list">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+      </div>
+      <div class="td-footer__copyright-etc col-12 col-sm-4 text-center py-2 order-sm-2">
+        <span>&copy; 2023 XW All Rights Reserved</span>
+        
+        
+      </div>
+    </div>
+  </div>
+  
+<link rel="stylesheet" href='/shortcodes/plugins-live2d/css/index.css?v=1.0.1' />
+<link rel="stylesheet" href='/shortcodes/plugins-live2d/css/waifu.min.css?v=1.0.1' />
+
+<div class= "plugins-live2d-data" data-live2d_width="200" data-live2d_height="220" data-live2d_position="right:10" data-live2d_minwidth="400px"></div>
+
+<script src='/shortcodes/plugins-live2d/js/index.js?v=1.0.1'></script>
+
+</footer>
+    </div>
+    
+  <script src="/js/main.min.9d4be27dd7b0e6c9b2948920085964b72679202e8e0439382ea6a68173e03576.js" integrity="sha256-nUvifdew5smylIkgCFlktyZ5IC6OBDk4LqamgXPgNXY=" crossorigin="anonymous"></script>
+<script defer src="/js/click-to-copy.min.f724d3de49218995223b7316aa2e53e2b34bf42026bf399ebb21bb02212402d1.js" integrity="sha256-9yTT3kkhiZUiO3MWqi5T4rNL9CAmvzmeuyG7AiEkAtE=" crossorigin="anonymous"></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

@@ -1,0 +1,931 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.115.1">
+<meta name="robots" content="index, follow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Docker | x-windy</title>
+<meta name="description" content="容器(Container) 应用程序在运行时相互独立互不干扰
+只隔离应用程序的运行时环境，容器之间可以共享同一个操作系统
+类似码头(主机)和集装箱(容器)
+Docker Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。
+Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。
+容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。
+Docker Docs: How to build, share, and run applications | Docker Documentation
+名词概念 dockerfile(源码/配置文件)
+image(镜像/可执行程序/类)
+container(容器/进程/对象)
+registry(容器仓库) Docker Hub
+docker client(负责处理用户输入的指令/client)
+docker demon(服务器)
+概念 说明 Docker 镜像(Images) Docker 镜像是用于创建 Docker 容器的模板，比如 Ubuntu 系统。 Docker 容器(Container) 容器是独立运行的一个或一组应用，是镜像运行时的实体。 Docker 客户端(Client) Docker 客户端通过命令行或者其他工具使用 Docker SDK (https://docs.docker.com/develop/sdk/) 与 Docker 的守护进程通信。 Docker 主机(Host) 一个物理或者虚拟的机器用于执行 Docker 守护进程和容器。 Docker Registry Docker 仓库用来保存镜像，可以理解为代码控制中的代码仓库。Docker Hub(https://hub.">
+<meta property="og:title" content="Docker" />
+<meta property="og:description" content="容器(Container) 应用程序在运行时相互独立互不干扰
+只隔离应用程序的运行时环境，容器之间可以共享同一个操作系统
+类似码头(主机)和集装箱(容器)
+Docker Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。
+Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。
+容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。
+Docker Docs: How to build, share, and run applications | Docker Documentation
+名词概念 dockerfile(源码/配置文件)
+image(镜像/可执行程序/类)
+container(容器/进程/对象)
+registry(容器仓库) Docker Hub
+docker client(负责处理用户输入的指令/client)
+docker demon(服务器)
+概念 说明 Docker 镜像(Images) Docker 镜像是用于创建 Docker 容器的模板，比如 Ubuntu 系统。 Docker 容器(Container) 容器是独立运行的一个或一组应用，是镜像运行时的实体。 Docker 客户端(Client) Docker 客户端通过命令行或者其他工具使用 Docker SDK (https://docs.docker.com/develop/sdk/) 与 Docker 的守护进程通信。 Docker 主机(Host) 一个物理或者虚拟的机器用于执行 Docker 守护进程和容器。 Docker Registry Docker 仓库用来保存镜像，可以理解为代码控制中的代码仓库。Docker Hub(https://hub." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://x-windy.github.io/blog/1/01/01/docker/" /><meta property="article:section" content="blog" />
+
+
+<meta itemprop="name" content="Docker">
+<meta itemprop="description" content="容器(Container) 应用程序在运行时相互独立互不干扰
+只隔离应用程序的运行时环境，容器之间可以共享同一个操作系统
+类似码头(主机)和集装箱(容器)
+Docker Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。
+Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。
+容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。
+Docker Docs: How to build, share, and run applications | Docker Documentation
+名词概念 dockerfile(源码/配置文件)
+image(镜像/可执行程序/类)
+container(容器/进程/对象)
+registry(容器仓库) Docker Hub
+docker client(负责处理用户输入的指令/client)
+docker demon(服务器)
+概念 说明 Docker 镜像(Images) Docker 镜像是用于创建 Docker 容器的模板，比如 Ubuntu 系统。 Docker 容器(Container) 容器是独立运行的一个或一组应用，是镜像运行时的实体。 Docker 客户端(Client) Docker 客户端通过命令行或者其他工具使用 Docker SDK (https://docs.docker.com/develop/sdk/) 与 Docker 的守护进程通信。 Docker 主机(Host) 一个物理或者虚拟的机器用于执行 Docker 守护进程和容器。 Docker Registry Docker 仓库用来保存镜像，可以理解为代码控制中的代码仓库。Docker Hub(https://hub.">
+
+<meta itemprop="wordCount" content="968">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Docker"/>
+<meta name="twitter:description" content="容器(Container) 应用程序在运行时相互独立互不干扰
+只隔离应用程序的运行时环境，容器之间可以共享同一个操作系统
+类似码头(主机)和集装箱(容器)
+Docker Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。
+Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。
+容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。
+Docker Docs: How to build, share, and run applications | Docker Documentation
+名词概念 dockerfile(源码/配置文件)
+image(镜像/可执行程序/类)
+container(容器/进程/对象)
+registry(容器仓库) Docker Hub
+docker client(负责处理用户输入的指令/client)
+docker demon(服务器)
+概念 说明 Docker 镜像(Images) Docker 镜像是用于创建 Docker 容器的模板，比如 Ubuntu 系统。 Docker 容器(Container) 容器是独立运行的一个或一组应用，是镜像运行时的实体。 Docker 客户端(Client) Docker 客户端通过命令行或者其他工具使用 Docker SDK (https://docs.docker.com/develop/sdk/) 与 Docker 的守护进程通信。 Docker 主机(Host) 一个物理或者虚拟的机器用于执行 Docker 守护进程和容器。 Docker Registry Docker 仓库用来保存镜像，可以理解为代码控制中的代码仓库。Docker Hub(https://hub."/>
+
+
+
+
+<link rel="preload" href="/scss/main.min.6176d7d472a139a502a7c863de9bb7b87ef1ec9c271ff8f3d8ba4d983491b9ac.css" as="style">
+<link href="/scss/main.min.6176d7d472a139a502a7c863de9bb7b87ef1ec9c271ff8f3d8ba4d983491b9ac.css" rel="stylesheet" integrity="">
+
+<script
+  src="https://code.jquery.com/jquery-3.6.3.min.js"
+  integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+  crossorigin="anonymous"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-00000000-0"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'UA-00000000-0');
+}
+</script>
+  </head>
+  <body class="td-page td-blog">
+    <header>
+      <nav class="td-navbar navbar-dark js-navbar-scroll">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="navbar-brand__name">x-windy</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" href="/blog/"><span>博客</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/docs/"><span>文档</span></a>
+      </li>
+      <li class="nav-item dropdown d-none d-lg-block">
+        <div class="dropdown">
+  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">中文</a>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="/en/">English</a></li>
+    <li><a class="dropdown-item" href="/ja/">日本語</a></li>
+    </ul>
+</div></li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    <div class="td-search">
+  <div class="td-search__icon"></div>
+  <input type="search" class="td-search__input form-control td-search-input" placeholder="站内搜索…" aria-label="站内搜索…" autocomplete="off">
+</div>
+
+  </div>
+</div>
+</nav>
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner">
+  <form class="td-sidebar__search d-flex align-items-center">
+    <div class="td-search">
+  <div class="td-search__icon"></div>
+  <input type="search" class="td-search__input form-control td-search-input" placeholder="站内搜索…" aria-label="站内搜索…" autocomplete="off">
+</div>
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  <nav class="collapse td-sidebar-nav" id="td-section-nav">
+    <div class="td-sidebar-nav__section nav-item dropdown d-block d-lg-none">
+      <div class="dropdown">
+  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">中文</a>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="/en/">English</a></li>
+    <li><a class="dropdown-item" href="/ja/">日本語</a></li>
+    </ul>
+</div>
+    </div>
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-blog-li">
+  <a href="/blog/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-blog"><span class="">博客</span></a>
+  <ul class="ul-1">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogjava-li">
+  <a href="/blog/java/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-blogjava"><span class="">Java</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101-li">
+  <a href="/blog/1/01/01/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101"><span class=""></span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101-li">
+  <a href="/blog/1/01/01/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101"><span class=""></span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101jwt-li">
+  <a href="/blog/1/01/01/jwt/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101jwt"><span class="">JWT</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101restful-li">
+  <a href="/blog/1/01/01/restful/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101restful"><span class="">RESTful</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101ruoyi-li">
+  <a href="/blog/1/01/01/ruoyi/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101ruoyi"><span class="">ruoyi</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101springsecurity-li">
+  <a href="/blog/1/01/01/springsecurity/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101springsecurity"><span class="">SpringSecurity</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blogpython-li">
+  <a href="/blog/python/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-blogpython"><span class="">Python</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-blogspring-boot-li">
+  <a href="/blog/spring-boot/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-blogspring-boot"><span class="">Spring boot</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101ssm-li">
+  <a href="/blog/1/01/01/ssm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101ssm"><span class="">SSM</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-bloge697a5e8afad-li">
+  <a href="/blog/%E6%97%A5%E8%AF%AD/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-bloge697a5e8afad"><span class="">日语</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20230712spring-cloud-li">
+  <a href="/blog/2023/07/12/spring-cloud/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog20230712spring-cloud"><span class="">Spring Cloud</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-blog10101docker-li">
+  <a href="/blog/1/01/01/docker/" class="align-left ps-0 active td-sidebar-link td-sidebar-link__page" id="m-blog10101docker"><span class="td-sidebar-nav-active-item">Docker</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-bloghugo-li">
+  <a href="/blog/hugo/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-bloghugo"><span class="">Hugo</span></a>
+  <ul class="ul-2 foldable">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog20230706e58786e5a487-li">
+  <a href="/blog/2023/07/06/%E5%87%86%E5%A4%87/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog20230706e58786e5a487"><span class="">准备</span></a>
+</li>
+  </ul>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-blog10101redis-li">
+  <a href="/blog/1/01/01/redis/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-blog10101redis"><span class="">Redis</span></a>
+</li>
+  </ul>
+</li>
+    </ul>
+  </nav>
+</div>
+
+          </aside>
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            
+<div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/x-windy/x-windy.github.io/tree/main/content/zh-cn/blog/Spring%20Cloud/docker.md" class="td-page-meta--view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> 查看页面源码</a>
+  <a href="https://github.com/x-windy/x-windy.github.io/edit/main/content/zh-cn/blog/Spring%20Cloud/docker.md" class="td-page-meta--edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> 编辑此页</a>
+  <a href="https://github.com/x-windy/x-windy.github.io/new/main/content/zh-cn/blog/Spring%20Cloud/docker.md?filename=change-me.md&amp;value=---%0D%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0D%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0D%0Aweight%3A&#43;100%0D%0Adescription%3A&#43;%3E-%0D%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0D%0A---%0D%0A%0D%0A%23%23&#43;Heading%0D%0A%0D%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0D%0A%0D%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0D%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0D%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0D%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0D%0A" class="td-page-meta--child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> 添加子页面</a>
+  <a href="https://github.com/x-windy/x-windy.github.io/issues/new?title=Docker" class="td-page-meta--issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> 提交文档问题</a>
+  <a href="https://github.com/x-windy/x-windy.github.io/issues/new" class="td-page-meta--project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> 提交项目问题</a>
+  <a id="print" href="https://x-windy.github.io/blog/_print/"><i class="fa-solid fa-print fa-fw"></i> 整节打印</a>
+
+</div>
+
+            <div class="td-toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#docker">Docker</a>
+      <ul>
+        <li><a href="#名词概念">名词概念</a></li>
+        <li><a href="#常用指令">常用指令</a></li>
+        <li><a href="#镜像">镜像</a></li>
+        <li><a href="#容器">容器</a></li>
+        <li><a href="#docker-dockerfile">Docker Dockerfile</a></li>
+        <li><a href="#docker-客户端的所有命令选项">Docker 客户端的所有命令选项</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+    
+            <div class="taxonomy taxonomy-terms-cloud taxo-tags">
+      <h5 class="taxonomy-title">标签云</h5>
+      <ul class="taxonomy-terms">
+        <li><a class="taxonomy-term" href="https://x-windy.github.io/tags/java/" data-taxonomy-term="java"><span class="taxonomy-label">Java</span><span class="taxonomy-count">2</span></a></li>
+        </ul>
+    </div>
+  <div class="taxonomy taxonomy-terms-cloud taxo-categories">
+      <h5 class="taxonomy-title">分类</h5>
+      <ul class="taxonomy-terms">
+        <li><a class="taxonomy-term" href="https://x-windy.github.io/categories/effective-java/" data-taxonomy-term="effective-java"><span class="taxonomy-label">Effective Java</span><span class="taxonomy-count">3</span></a></li>
+        <li><a class="taxonomy-term" href="https://x-windy.github.io/categories/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/" data-taxonomy-term="%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C"><span class="taxonomy-label">阿里巴巴Java开发手册</span><span class="taxonomy-count">1</span></a></li>
+        </ul>
+    </div>
+  
+	
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5 pe-md-4" role="main">
+            <a class="td-rss-button" title="RSS" href="https://x-windy.github.io/blog/index.xml" target="_blank" rel="noopener">
+              <i class="fa-solid fa-rss" aria-hidden="true"></i>
+            </a>
+            
+<div class="td-content">
+	<h1>Docker</h1>
+	
+	<div class="td-byline mb-4">
+		作者: <b>XW</b> |
+		<time datetime="0001-01-01" class="text-muted">0001-1-1 00:00:00 周一 下午</time>
+	</div>
+	<header class="article-meta">
+		
+  </header>
+	<h1 id="容器container">容器(Container)</h1>
+<blockquote>
+<p>应用程序在运行时相互独立互不干扰</p>
+<p>只隔离应用程序的运行时环境，容器之间可以共享同一个操作系统</p>
+<p>类似码头(主机)和集装箱(容器)</p>
+</blockquote>
+<h2 id="docker">Docker</h2>
+<blockquote>
+<p>Docker 是一个开源的应用容器引擎，基于 <a href="https://www.runoob.com/go/go-tutorial.html">Go 语言</a> 并遵从 Apache2.0 协议开源。</p>
+<p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
+<p>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
+<p><a href="https://docs.docker.com/">Docker Docs: How to build, share, and run applications | Docker Documentation</a></p>
+</blockquote>
+<p><img src="https://docs.docker.com/assets/images/architecture.svg" alt="docker"></p>
+<h3 id="名词概念">名词概念</h3>
+<p><code>dockerfile(源码/配置文件)</code></p>
+<p><code>image(镜像/可执行程序/类)</code></p>
+<p><code>container(容器/进程/对象)</code></p>
+<p><code>registry(容器仓库)</code> <a href="%5Bhttps://hub.docker.com%5D(https://hub.docker.com/)">Docker Hub</a></p>
+<p><code>docker client(负责处理用户输入的指令/client)</code></p>
+<p><code>docker demon(服务器)</code></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">概念</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Docker 镜像(Images)</td>
+<td style="text-align:left">Docker 镜像是用于创建 Docker 容器的模板，比如 Ubuntu 系统。</td>
+</tr>
+<tr>
+<td style="text-align:left">Docker 容器(Container)</td>
+<td style="text-align:left">容器是独立运行的一个或一组应用，是镜像运行时的实体。</td>
+</tr>
+<tr>
+<td style="text-align:left">Docker 客户端(Client)</td>
+<td style="text-align:left">Docker 客户端通过命令行或者其他工具使用 Docker SDK (<a href="https://docs.docker.com/develop/sdk/">https://docs.docker.com/develop/sdk/</a>) 与 Docker 的守护进程通信。</td>
+</tr>
+<tr>
+<td style="text-align:left">Docker 主机(Host)</td>
+<td style="text-align:left">一个物理或者虚拟的机器用于执行 Docker 守护进程和容器。</td>
+</tr>
+<tr>
+<td style="text-align:left">Docker Registry</td>
+<td style="text-align:left">Docker 仓库用来保存镜像，可以理解为代码控制中的代码仓库。Docker Hub(<a href="https://hub.docker.com/">https://hub.docker.com</a>) 提供了庞大的镜像集合供使用。一个 Docker Registry 中可以包含多个仓库（Repository）；每个仓库可以包含多个标签（Tag）；每个标签对应一个镜像。通常，一个仓库会包含同一个软件不同版本的镜像，而标签就常用于对应该软件的各个版本。我们可以通过 <strong>&lt;仓库名&gt;:&lt;标签&gt;</strong> 的格式来指定具体是这个软件哪个版本的镜像。如果不给出标签，将以 <strong>latest</strong> 作为默认标签。</td>
+</tr>
+<tr>
+<td style="text-align:left">Docker Machine</td>
+<td style="text-align:left">Docker Machine是一个简化Docker安装的命令行工具，通过一个简单的命令行即可在相应的平台上安装Docker，比如VirtualBox、 Digital Ocean、Microsoft Azure。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="常用指令">常用指令</h3>
+<table>
+<thead>
+<tr>
+<th>docker client</th>
+<th>docker demon</th>
+<th>Registry</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>docker build(编译)</td>
+<td>dockerfile-&gt;image</td>
+<td></td>
+</tr>
+<tr>
+<td>docker run(运行)</td>
+<td>image-&gt;container</td>
+<td></td>
+</tr>
+<tr>
+<td>docker pull(下载镜像)</td>
+<td></td>
+<td>image</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 启动服务</span>
+</span></span><span style="display:flex;"><span>systemctl start docker
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># exit或CTRL+D退出容器</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 查看出本地主机上的所有镜像</span>
+</span></span><span style="display:flex;"><span>docker images
+</span></span></code></pre></div><blockquote>
+<p>同一仓库源可以有多个 TAG，代表这个仓库源的不同个版本，如 ubuntu 仓库源里，有 15.10、14.04 等多个不同的版本，我们使用 <code>REPOSITORY:TAG</code> 来定义<strong>不同的镜像</strong>。</p>
+</blockquote>
+<p>各个选项说明:</p>
+<ul>
+<li>**<code>REPOSITORY</code>：**表示镜像的仓库源</li>
+<li>**<code>TAG</code>：**镜像的标签</li>
+<li>**<code>IMAGE ID</code>：**镜像ID</li>
+<li>**<code>CREATED</code>：**镜像创建时间</li>
+<li>**<code>SIZE</code>：**镜像大小</li>
+</ul>
+<h4 id="运行交互式的容器">运行交互式的容器</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker run -i -t <span style="color:#ce5c00;font-weight:bold">[</span>指定运行的镜像<span style="color:#ce5c00;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">[</span>启动容器执行的命令<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>docker run -it <span style="color:#ce5c00;font-weight:bold">[</span>指定运行的镜像<span style="color:#ce5c00;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">[</span>启动容器执行的命令<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span></code></pre></div><p>参数：</p>
+<ul>
+<li><code>-t</code>: 在新容器内指定一个伪终端或终端。</li>
+<li><code>-i</code>: 允许你对容器内的标准输入 (STDIN) 进行交互。</li>
+</ul>
+<h4 id="进程方式运行的容器">进程方式运行的容器</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker run -d <span style="color:#ce5c00;font-weight:bold">[</span>指定运行的镜像<span style="color:#ce5c00;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">[</span>启动容器执行的命令<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 查看容器运行的进程</span>
+</span></span><span style="display:flex;"><span>docker ps
+</span></span><span style="display:flex;"><span>docker ps -a
+</span></span></code></pre></div><p>输出详情介绍：</p>
+<ul>
+<li>
+<p><strong><code>CONTAINER ID</code>:</strong> 容器 ID。</p>
+</li>
+<li>
+<p><strong><code>IMAGE</code>:</strong> 使用的镜像。</p>
+</li>
+<li>
+<p><strong><code>COMMAND</code>:</strong> 启动容器时运行的命令。</p>
+</li>
+<li>
+<p><strong><code>CREATED:</code></strong> 容器的创建时间。</p>
+</li>
+<li>
+<p><strong><code>STATUS</code>:</strong> 容器状态。</p>
+<ul>
+<li>状态有7种：
+<ul>
+<li><code>created</code>（已创建）</li>
+<li><code>restarting</code>（重启中）</li>
+<li><code>running</code> 或 <code>Up</code>（运行中）</li>
+<li><code>removing</code>（迁移中）</li>
+<li><code>paused</code>（暂停）</li>
+<li><code>exited</code>（停止）</li>
+<li><code>dead</code>（死亡）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>PORTS</code>:</strong> 容器的端口信息和使用的连接类型（tcp\udp）。</p>
+</li>
+<li>
+<p><strong><code>NAMES</code>:</strong> 自动分配的容器名称。</p>
+</li>
+</ul>
+<h4 id="查看容器内的标准输出">查看容器内的标准输出</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker logs <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span>/<span style="color:#ce5c00;font-weight:bold">[</span>NAMES<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span></code></pre></div><h3 id="镜像">镜像</h3>
+<h4 id="查找镜像">查找镜像</h4>
+<blockquote>
+<p><a href="https://hub.docker.com/">https://hub.docker.com/</a></p>
+</blockquote>
+<pre tabindex="0"><code>docker search [镜像]
+</code></pre><ul>
+<li><strong><code>NAME</code>:</strong> 镜像仓库源的名称</li>
+<li><strong><code>DESCRIPTION</code>:</strong> 镜像的描述</li>
+<li><strong><code>OFFICIAL</code>:</strong> 是否 docker 官方发布</li>
+<li><strong><code>stars</code>:</strong> 类似 Github 里面的 star，表示点赞、喜欢的意思。</li>
+<li><strong><code>AUTOMATED</code>:</strong> 自动构建。</li>
+</ul>
+<h4 id="获取镜像">获取镜像</h4>
+<pre tabindex="0"><code>docker pull [镜像]
+</code></pre><h4 id="创建镜像">创建镜像</h4>
+<h5 id="更新镜像">更新镜像</h5>
+<blockquote>
+<p>先创建一个容器<code>docker run -it</code></p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 在容器内</span>
+</span></span><span style="display:flex;"><span>apt-get update
+</span></span><span style="display:flex;"><span><span style="color:#204a87">exit</span>
+</span></span></code></pre></div><h5 id="修改容器">修改容器</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker commit -m<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;has update&#34;</span> -a<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;runoob&#34;</span> <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">[</span>NAMES<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>docker commit -m<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;has update&#34;</span> -a<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;runoob&#34;</span> e218edb10161 runoob/ubuntu:v2
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 查看新的镜像</span>
+</span></span><span style="display:flex;"><span>docker images
+</span></span></code></pre></div><p>参数说明：</p>
+<ul>
+<li><strong><code>-m</code>:</strong> 提交的描述信息</li>
+<li><strong><code>-a</code>:</strong> 指定镜像作者</li>
+<li>**e218edb10161：**容器 ID</li>
+<li><strong>runoob/ubuntu:v2:</strong> 指定要创建的目标镜像名</li>
+</ul>
+<h5 id="构建镜像">构建镜像</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 创建文件</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>cat Dockerfile<span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">FROM</span><span style="color:#4e9a06">    centos:6.7</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">MAINTAINER</span><span style="color:#4e9a06">      Fisher &#34;fisher@sudops.com&#34;</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">RUN</span>     /bin/echo <span style="color:#4e9a06">&#39;root:123456&#39;</span> <span style="color:#000;font-weight:bold">|</span>chpasswd<span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">RUN</span>     useradd runoob<span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">RUN</span>     /bin/echo <span style="color:#4e9a06">&#39;runoob:123456&#39;</span> <span style="color:#000;font-weight:bold">|</span>chpasswd<span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">RUN</span>     /bin/echo -e <span style="color:#4e9a06">&#34;LANG=\&#34;en_US.UTF-8\&#34;&#34;</span> &gt;/etc/default/local<span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">EXPOSE</span><span style="color:#4e9a06">  22</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">EXPOSE</span><span style="color:#4e9a06">  80</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">CMD</span>     /usr/sbin/sshd -D<span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902;font-style:italic"># 编译创建镜像</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>docker build -t runoob/centos:6.7 .<span style="color:#a40000">
+</span></span></span></code></pre></div><blockquote>
+<p>每一个指令的前缀都必须是大写的。</p>
+<p><code>RUN</code> 指令告诉docker 在镜像内执行命令，安装了什么</p>
+</blockquote>
+<p>参数说明：</p>
+<ul>
+<li><strong><code>-t</code></strong> ：指定要创建的目标镜像名</li>
+<li><strong><code>.</code></strong> ：Dockerfile 文件所在目录，可以指定Dockerfile 的绝对路径</li>
+</ul>
+<h5 id="设置镜像标签">设置镜像标签</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker tag <span style="color:#ce5c00;font-weight:bold">[</span>IMAGE ID<span style="color:#ce5c00;font-weight:bold">]</span> runoob/centos:dev
+</span></span></code></pre></div><blockquote>
+<p><code>runoob/centos:dev</code></p>
+<p>用户名称<code>/</code>镜像源名(repository name)<code>:</code>新的标签名(tag)</p>
+</blockquote>
+<h4 id="删除镜像">删除镜像</h4>
+<pre tabindex="0"><code>docker rmi [IMAGE ID]
+</code></pre><h3 id="容器">容器</h3>
+<h4 id="启动容器">启动容器</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 交互模式</span>
+</span></span><span style="display:flex;"><span>docker run -it <span style="color:#ce5c00;font-weight:bold">[</span>指定运行的镜像<span style="color:#ce5c00;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">[</span>启动容器执行的命令<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 进程模式</span>
+</span></span><span style="display:flex;"><span>docker run -d <span style="color:#ce5c00;font-weight:bold">[</span>指定运行的镜像<span style="color:#ce5c00;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">[</span>启动容器执行的命令<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>docker run -itd --name ubuntu-test ubuntu /bin/bash
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 不指定一个镜像的版本标签,默认使用ubuntu:latest镜像</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 启动已停止的容器</span>
+</span></span><span style="display:flex;"><span>docker start <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span></code></pre></div><h4 id="进入容器">进入容器</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 如果从这个容器退出，会导致容器的停止</span>
+</span></span><span style="display:flex;"><span>docker attach
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 会退出容器终端，但不会导致容器的停止</span>
+</span></span><span style="display:flex;"><span>docker <span style="color:#204a87">exec</span>
+</span></span></code></pre></div><h4 id="停止容器">停止容器</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker stop <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 重启容器</span>
+</span></span><span style="display:flex;"><span>docker restart <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span></code></pre></div><h4 id="导出容器和导入容器">导出容器和导入容器</h4>
+<h5 id="导出容器">导出容器</h5>
+<blockquote>
+<p>导出容器快照</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker <span style="color:#204a87">export</span> <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span> &gt; <span style="color:#ce5c00;font-weight:bold">[</span>容器快照名<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>docker <span style="color:#204a87">export</span> 1e560fca3906 &gt; ubuntu.tar
+</span></span></code></pre></div><h5 id="导入容器">导入容器</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker import <span style="color:#ce5c00;font-weight:bold">[</span>容器快照名<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span>docker import http://example.com/exampleimage.tgz example/imagerepo
+</span></span></code></pre></div><h4 id="删除容器">删除容器</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker rm -f <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 清理掉所有处于终止状态的容器</span>
+</span></span><span style="display:flex;"><span>docker container prune
+</span></span></code></pre></div><h4 id="运行web项目">运行web项目</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker pull training/webapp  <span style="color:#8f5902;font-style:italic"># 载入镜像</span>
+</span></span><span style="display:flex;"><span>docker run -d -P training/webapp python app.py
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># -p设置端口</span>
+</span></span><span style="display:flex;"><span>docker run -d -p 5000:5000 training/webapp python app.py
+</span></span></code></pre></div><p>参数说明:</p>
+<ul>
+<li>**<code>-d</code>:**让容器在后台运行。</li>
+<li>**<code>-P</code>:**将容器内部使用的网络端口随机映射到我们使用的主机上。</li>
+</ul>
+<h5 id="查看端口">查看端口</h5>
+<blockquote>
+<p>查看指定 （ID 或者名字）容器的某个确定端口映射到宿主机的端口号。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker port <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span>/<span style="color:#ce5c00;font-weight:bold">[</span>NAMES<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span></code></pre></div><h5 id="查看-web-应用程序日志">查看 WEB 应用程序日志</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker logs -f <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span>/<span style="color:#ce5c00;font-weight:bold">[</span>NAMES<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span></code></pre></div><p><strong><code>-f</code>:</strong> 让 <strong>docker logs</strong> 像使用 <strong>tail -f</strong> 一样来输出容器内部的标准输出。</p>
+<h5 id="查看web应用程序容器的进程">查看WEB应用程序容器的进程</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker top <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span>/<span style="color:#ce5c00;font-weight:bold">[</span>NAMES<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span></code></pre></div><h5 id="检查-web-应用程序">检查 WEB 应用程序</h5>
+<blockquote>
+<p><strong><code>docker inspect</code></strong>：查看 Docker 的底层信息。它会返回一个 JSON 文件记录着 Docker 容器的配置和状态信息。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker inspect <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span>/<span style="color:#ce5c00;font-weight:bold">[</span>NAMES<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span></code></pre></div><h5 id="移除web应用容器">移除WEB应用容器</h5>
+<blockquote>
+<p>删除容器时，容器必须是停止状态</p>
+</blockquote>
+<pre tabindex="0"><code>docker rm [CONTAINER ID]/[NAMES]
+</code></pre><h4 id="查询最后一次创建的容器">查询最后一次创建的容器</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker ps -l
+</span></span></code></pre></div><h4 id="连接docker容器">连接Docker容器</h4>
+<blockquote>
+<p>指定容器绑定的网络地址，比如绑定 127.0.0.1</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 可以通过访问 127.0.0.1:5001 来访问容器的 5000 端口</span>
+</span></span><span style="display:flex;"><span>docker run -d -p 127.0.0.1:5001:5000 training/webapp python app.py
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 绑定 UDP 端口(默认TCP)</span>
+</span></span><span style="display:flex;"><span>docker run -d -p 127.0.0.1:5000:5000/udp training/webapp python app.py
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 查看端口的绑定情况</span>
+</span></span><span style="display:flex;"><span>docker port adoring_stonebraker <span style="color:#0000cf;font-weight:bold">5000</span>
+</span></span></code></pre></div><p>使用 <strong>-p</strong> 标识来指定容器端口绑定到主机端口。</p>
+<p>两种方式的区别是:</p>
+<ul>
+<li><strong><code>-P</code> :<strong>是容器内部端口</strong>随机</strong>映射到主机的端口。</li>
+<li><strong><code>-p</code> :</strong> 是容器内部端口绑定到<strong>指定</strong>的主机端口。</li>
+</ul>
+<h4 id="互联docker-容器">互联Docker 容器</h4>
+<blockquote>
+<p>端口映射并不是唯一把 docker 连接到另一个容器的方法。</p>
+<p>docker 有一个连接系统允许将多个容器连接在一起，共享连接信息。</p>
+<p>docker 连接会创建一个父子关系，其中父容器可以看到子容器的信息。</p>
+</blockquote>
+<h5 id="容器命名">容器命名</h5>
+<blockquote>
+<p>当我们创建一个容器的时候，docker 会自动对它进行命名。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 当我们创建一个容器的时候，docker 会自动对它进行命名</span>
+</span></span><span style="display:flex;"><span>docker run -d -P --name <span style="color:#ce5c00;font-weight:bold">[</span>指定名称<span style="color:#ce5c00;font-weight:bold">]</span> 
+</span></span></code></pre></div><h5 id="新建网络">新建网络</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 创建一个新的 Docker 网络</span>
+</span></span><span style="display:flex;"><span>docker network create -d bridge test-net
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 查看docker网络</span>
+</span></span><span style="display:flex;"><span>docker network ls
+</span></span></code></pre></div><p>参数说明：</p>
+<p><strong><code>-d</code></strong>：参数指定 Docker 网络类型，有 bridge、overlay。</p>
+<p>​			其中 overlay 网络类型用于 Swarm mode</p>
+<h5 id="连接容器">连接容器</h5>
+<blockquote>
+<p>运行一个容器并连接到新建的 test-net 网络</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker run -itd --name test1 --network test-net ubuntu /bin/bash
+</span></span></code></pre></div><blockquote>
+<p>打开新的终端，再运行一个容器并加入到 test-net 网络</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker run -itd --name test2 --network test-net ubuntu /bin/bash
+</span></span></code></pre></div><blockquote>
+<p>安装ping</p>
+<p>可以在一个容器里安装好，提交容器到镜像，在以新的镜像重新运行以上俩个容器</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker commit -m<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;说明&#34;</span> -a<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#34;作者&#34;</span> <span style="color:#ce5c00;font-weight:bold">[</span>CONTAINER ID<span style="color:#ce5c00;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">[</span>NAMES<span style="color:#ce5c00;font-weight:bold">]</span>
+</span></span></code></pre></div></blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>apt-get update
+</span></span><span style="display:flex;"><span>apt install iputils-ping
+</span></span></code></pre></div><h5 id="配置dns">配置DNS</h5>
+<blockquote>
+<p>在主机上 <code>/etc/docker/daemon.json</code> 设置全部容器的 DNS</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;dns&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#4e9a06">&#34;114.114.114.114&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#4e9a06">&#34;8.8.8.8&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><blockquote>
+<p>设置后，启动容器的 DNS 会自动配置为 114.114.114.114 和 8.8.8.8。</p>
+<p>配置完，需要重启 docker 才能生效。</p>
+<p>查看容器的 DNS 是否生效可以使用以下命令，它会输出容器的 DNS 信息：</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker run -it --rm  ubuntu  cat etc/resolv.conf
+</span></span></code></pre></div><h5 id="手动指定容器的配置">手动指定容器的配置</h5>
+<blockquote>
+<p>如果只想在指定的容器设置 DNS</p>
+<p>如果在容器启动时没有指定 <strong>&ndash;dns</strong> 和 <strong>&ndash;dns-search</strong>，Docker 会默认用宿主主机上的 /etc/resolv.conf 来配置容器的 DNS。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker run -it --rm -h host_ubuntu  --dns<span style="color:#ce5c00;font-weight:bold">=</span>114.114.114.114 --dns-search<span style="color:#ce5c00;font-weight:bold">=</span>test.com ubuntu
+</span></span></code></pre></div><p>参数说明：</p>
+<ul>
+<li><strong><code>--rm</code></strong>：容器退出时自动清理容器内部的文件系统。</li>
+<li><strong><code>-h HOSTNAME</code> 或者 <code>--hostname=HOSTNAME</code></strong>： 设定容器的主机名，它会被写到容器内的 /etc/hostname 和 /etc/hosts。</li>
+<li><strong><code>--dns=IP_ADDRESS</code></strong>： 添加 DNS 服务器到容器的 <code>/etc/resolv.conf</code> 中，让容器用这个服务器来解析所有不在 <code>/etc/hosts</code> 中的主机名。</li>
+<li><strong><code>--dns-search=DOMAIN</code></strong>： 设定容器的搜索域，当设定搜索域为 .example.com 时，在搜索一个名为 host 的主机时，DNS 不仅搜索 host，还会搜索 host.example.com</li>
+</ul>
+<h4 id="docker-仓库管理">Docker 仓库管理</h4>
+<blockquote>
+<p>仓库（Repository）是集中存放镜像的地方</p>
+<p><a href="https://hub.docker.com/">Docker Hub</a></p>
+</blockquote>
+<h5 id="注册">注册</h5>
+<blockquote>
+<p>在 <a href="https://hub.docker.com/">https://hub.docker.com</a> 免费注册一个 Docker 账号。</p>
+</blockquote>
+<h5 id="登录">登录</h5>
+<blockquote>
+<p>登录需要输入用户名和密码，登录成功后，我们就可以从 <code>docker hub</code> 上拉取<strong>自己账号下的全部镜像</strong>。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker login
+</span></span></code></pre></div><h5 id="退出"><strong>退出</strong></h5>
+<blockquote>
+<p>退出 docker hub 可以使用以下命令：</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker <span style="color:#204a87">logout</span>
+</span></span></code></pre></div><h5 id="拉取镜像">拉取镜像</h5>
+<p>你可以通过 <code>docker search</code> 命令来查找<strong>官方仓库中的镜像</strong>，并利用 docker pull 命令来将它下载到本地。</p>
+<p>以 ubuntu 为关键词进行搜索：</p>
+<pre tabindex="0"><code>docker search ubuntu
+docker pull ubuntu 
+</code></pre><h5 id="推送镜像">推送镜像</h5>
+<blockquote>
+<p>用户登录后，可以通过 docker push 命令将自己的镜像推送到 Docker Hub。</p>
+<p>以下命令中的 username 请替换为你的 Docker 账号用户名。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker tag ubuntu:18.04 username/ubuntu:18.04
+</span></span><span style="display:flex;"><span>docker image ls
+</span></span></code></pre></div><h3 id="docker-dockerfile">Docker Dockerfile</h3>
+<blockquote>
+<p>Dockerfile 是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。</p>
+</blockquote>
+<h4 id="定制nginx-镜像">定制nginx 镜像</h4>
+<blockquote>
+<p><strong>构建好的镜像内会有一个 <code>/usr/share/nginx/html/index.html</code> 文件</strong></p>
+<p>空目录下，新建一个名为 Dockerfile 文件</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkdir Dockerfile
+</span></span><span style="display:flex;"><span><span style="color:#204a87">cd</span> Dockerfile/
+</span></span><span style="display:flex;"><span>vi Dockerfile
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 打印文件文本</span>
+</span></span><span style="display:flex;"><span>cat Dockerfile
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">FROM</span><span style="color:#4e9a06"> nginx</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">RUN</span> <span style="color:#204a87">echo</span> <span style="color:#4e9a06">&#39;这是一个本地构建的nginx镜像&#39;</span> &gt; /usr/share/nginx/html/index.html<span style="color:#a40000">
+</span></span></span></code></pre></div><ul>
+<li>
+<p><strong><code>FROM</code></strong>：定制的镜像都是基于 FROM 的镜像，这里的 nginx 就是定制需要的基础镜像。后续的操作都是基于 nginx。</p>
+</li>
+<li>
+<p><strong><code>RUN</code></strong>：用于执行后面跟着的命令行命令。有以下俩种格式：</p>
+</li>
+</ul>
+<p><code>shell</code> 格式：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">RUN</span> &lt;命令行命令&gt;<span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902;font-style:italic"># &lt;命令行命令&gt; 等同于，在终端操作的 shell 命令。</span><span style="color:#a40000">
+</span></span></span></code></pre></div><p><code>exec</code> 格式：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">RUN</span> <span style="color:#ce5c00;font-weight:bold">[</span><span style="color:#4e9a06">&#34;可执行文件&#34;</span>, <span style="color:#4e9a06">&#34;参数1&#34;</span>, <span style="color:#4e9a06">&#34;参数2&#34;</span><span style="color:#ce5c00;font-weight:bold">]</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902;font-style:italic"># 例如：</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902;font-style:italic"># RUN [&#34;./test.php&#34;, &#34;dev&#34;, &#34;offline&#34;] 等价于 RUN ./test.php dev offline</span><span style="color:#a40000">
+</span></span></span></code></pre></div><blockquote>
+<p><strong>注意</strong>：Dockerfile 的指令每执行一次都会在 docker 上新建一层。所以过多无意义的层，会造成镜像膨胀过大。例如：</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">FROM</span><span style="color:#4e9a06"> centos</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">RUN</span> yum -y install wget<span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">RUN</span> wget -O redis.tar.gz <span style="color:#4e9a06">&#34;http://download.redis.io/releases/redis-5.0.3.tar.gz&#34;</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">RUN</span> tar -xvf redis.tar.gz<span style="color:#a40000">
+</span></span></span></code></pre></div><p>以上执行会创建 3 层镜像。可简化为以下格式：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">FROM</span><span style="color:#4e9a06"> centos</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#204a87;font-weight:bold">RUN</span> yum -y install wget <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    <span style="color:#ce5c00;font-weight:bold">&amp;&amp;</span> wget -O redis.tar.gz <span style="color:#4e9a06">&#34;http://download.redis.io/releases/redis-5.0.3.tar.gz&#34;</span> <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>    <span style="color:#ce5c00;font-weight:bold">&amp;&amp;</span> tar -xvf redis.tar.gz<span style="color:#a40000">
+</span></span></span></code></pre></div><p>如上，以 <strong>&amp;&amp;</strong> 符号连接命令，这样执行后，<strong>只会创建 1 层镜像</strong>。</p>
+<h4 id="开始构建镜像">开始构建镜像</h4>
+<blockquote>
+<p>在 Dockerfile 文件的存放目录下，执行构建动作。</p>
+<p>以下示例，通过目录下的 Dockerfile 构建一个 <code>nginx:v3</code>（镜像名称:镜像标签）。</p>
+<p><strong>注</strong>：最后的 <code>.</code> 代表本次执行的上下文路径</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker build -t nginx:v3 .
+</span></span><span style="display:flex;"><span>docker images
+</span></span></code></pre></div><h5 id="上下文路径">上下文路径</h5>
+<blockquote>
+<p>上下文路径，是指 docker 在构建镜像，有时候想要使用到本机的文件（比如复制），<code>docker build</code> 命令得知这个路径后，<strong>会将路径下的所有内容打包</strong>。</p>
+<p><strong>解析</strong>：由于 docker 的运行模式是 C/S。我们本机是 C，docker 引擎是 S。实际的构建过程是在 docker 引擎下完成的，所以这个时候<strong>无法用到我们本机的文件</strong>。这就需要把我们<strong>本机的指定目录下的文件</strong>一起打包提供给 docker 引擎使用。</p>
+<p><strong>如果未说明最后一个参数</strong>，那么默认上下文路径就是 <strong>Dockerfile 所在的位置</strong>。</p>
+<p><strong>注意</strong>：上下文路径下不要放无用的文件，因为会一起打包发送给 docker 引擎，如果文件过多会造成过程缓慢。</p>
+</blockquote>
+<h4 id="指令详解">指令详解</h4>
+<blockquote>
+<p><a href="https://www.runoob.com/docker/docker-dockerfile.html">Docker Dockerfile | 菜鸟教程 (runoob.com)</a></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Dockerfile 指令</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">FROM</td>
+<td style="text-align:left">指定<strong>基础镜像</strong>，用于后续的指令构建。</td>
+</tr>
+<tr>
+<td style="text-align:left">MAINTAINER</td>
+<td style="text-align:left">指定Dockerfile的作者/维护者。（已弃用，推荐使用<code>LABEL</code>指令）</td>
+</tr>
+<tr>
+<td style="text-align:left">LABEL</td>
+<td style="text-align:left">添加镜像的元数据，使用键值对的形式。</td>
+</tr>
+<tr>
+<td style="text-align:left">RUN</td>
+<td style="text-align:left">在构建过程中在镜像中执行命令。</td>
+</tr>
+<tr>
+<td style="text-align:left">CMD</td>
+<td style="text-align:left">指定容器创建时的默认命令。（可以被覆盖）</td>
+</tr>
+<tr>
+<td style="text-align:left">ENTRYPOINT</td>
+<td style="text-align:left">设置容器创建时的主要命令。（不可被覆盖）</td>
+</tr>
+<tr>
+<td style="text-align:left">EXPOSE</td>
+<td style="text-align:left">声明容器运行时监听的特定网络端口。</td>
+</tr>
+<tr>
+<td style="text-align:left">ENV</td>
+<td style="text-align:left">在容器内部设置环境变量。</td>
+</tr>
+<tr>
+<td style="text-align:left">ADD</td>
+<td style="text-align:left">将文件、目录或远程URL复制到镜像中。</td>
+</tr>
+<tr>
+<td style="text-align:left">COPY</td>
+<td style="text-align:left">将文件或目录复制到镜像中。</td>
+</tr>
+<tr>
+<td style="text-align:left">VOLUME</td>
+<td style="text-align:left">为容器创建挂载点或声明卷。</td>
+</tr>
+<tr>
+<td style="text-align:left">WORKDIR</td>
+<td style="text-align:left">设置后续指令的工作目录。</td>
+</tr>
+<tr>
+<td style="text-align:left">USER</td>
+<td style="text-align:left">指定后续指令的用户上下文。</td>
+</tr>
+<tr>
+<td style="text-align:left">ARG</td>
+<td style="text-align:left">定义在构建过程中传递给构建器的变量，可使用 &ldquo;docker build&rdquo; 命令设置。</td>
+</tr>
+<tr>
+<td style="text-align:left">ONBUILD</td>
+<td style="text-align:left">当该镜像被用作另一个构建过程的基础时，添加触发器。</td>
+</tr>
+<tr>
+<td style="text-align:left">STOPSIGNAL</td>
+<td style="text-align:left">设置发送给容器以退出的系统调用信号。</td>
+</tr>
+<tr>
+<td style="text-align:left">HEALTHCHECK</td>
+<td style="text-align:left">定义周期性检查容器健康状态的命令。</td>
+</tr>
+<tr>
+<td style="text-align:left">SHELL</td>
+<td style="text-align:left">覆盖Docker中默认的shell，用于RUN、CMD和ENTRYPOINT指令。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="docker-客户端的所有命令选项">Docker 客户端的所有命令选项</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 指定命令的具体用法</span>
+</span></span><span style="display:flex;"><span>docker <span style="color:#ce5c00;font-weight:bold">[</span>command<span style="color:#ce5c00;font-weight:bold">]</span> --help
+</span></span></code></pre></div>
+	<ul class="list-unstyled d-flex justify-content-between align-items-center mb-0 pt-5">
+  <li>
+    <a href="/blog/1/01/01/redis/" aria-label="上一页 - Redis" class="btn btn-primary"><span class="me-1">←</span>上一页</a>
+  </li>
+  <li>
+    <a href="/blog/2023/07/12/spring-cloud/" aria-label="下一页 - Spring Cloud" class="btn btn-primary">下一页<span class="ms-1">→</span></a>
+  </li>
+</ul>
+
+</div>
+
+
+          </main>
+        </div>
+      </div>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="User mailing list" aria-label="User mailing list">
+    <a target="_blank" rel="noopener" href="https://example.org/mail" aria-label="User mailing list">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="Twitter" aria-label="Twitter">
+    <a target="_blank" rel="noopener" href="https://example.org/twitter" aria-label="Twitter">
+      <i class="fab fa-twitter"></i>
+    </a>
+  </li>
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="Stack Overflow" aria-label="Stack Overflow">
+    <a target="_blank" rel="noopener" href="https://example.org/stack" aria-label="Stack Overflow">
+      <i class="fab fa-stack-overflow"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+      </div>
+      <div class="col-6 col-sm-4 text-end text-xs-center order-sm-3">
+        
+        
+        
+<ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a target="_blank" rel="noopener" href="https://github.com/x-windy/" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="Slack" aria-label="Slack">
+    <a target="_blank" rel="noopener" href="https://example.org/slack" aria-label="Slack">
+      <i class="fab fa-slack"></i>
+    </a>
+  </li>
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="Developer mailing list" aria-label="Developer mailing list">
+    <a target="_blank" rel="noopener" href="https://example.org/mail" aria-label="Developer mailing list">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+      </div>
+      <div class="td-footer__copyright-etc col-12 col-sm-4 text-center py-2 order-sm-2">
+        <span>&copy; 2023 XW All Rights Reserved</span>
+        
+        
+      </div>
+    </div>
+  </div>
+  
+<link rel="stylesheet" href='/shortcodes/plugins-live2d/css/index.css?v=1.0.1' />
+<link rel="stylesheet" href='/shortcodes/plugins-live2d/css/waifu.min.css?v=1.0.1' />
+
+<div class= "plugins-live2d-data" data-live2d_width="200" data-live2d_height="220" data-live2d_position="right:10" data-live2d_minwidth="400px"></div>
+
+<script src='/shortcodes/plugins-live2d/js/index.js?v=1.0.1'></script>
+
+</footer>
+    </div>
+    
+  <script src="/js/main.min.9d4be27dd7b0e6c9b2948920085964b72679202e8e0439382ea6a68173e03576.js" integrity="sha256-nUvifdew5smylIkgCFlktyZ5IC6OBDk4LqamgXPgNXY=" crossorigin="anonymous"></script>
+<script defer src="/js/click-to-copy.min.f724d3de49218995223b7316aa2e53e2b34bf42026bf399ebb21bb02212402d1.js" integrity="sha256-9yTT3kkhiZUiO3MWqi5T4rNL9CAmvzmeuyG7AiEkAtE=" crossorigin="anonymous"></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

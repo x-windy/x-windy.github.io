@@ -10,6 +10,7 @@
 # if your project is using the required Hugo version.
 baseURL = "https://x-windy.github.io/"
 title = "x-windy"
+# uglyurls = true
 theme = ["docsy", "plugins-live2d"]
 # Language settings
 contentDir = "content/zh-cn"
@@ -242,6 +243,7 @@ enable = false
 # hugo module configuration
 
 [module]
+  proxy = 'https://goproxy.cn'
   # uncomment line below for temporary local development of module
   replacements = "github.com/google/docsy -> ./docsy"
   [module.hugoVersion]

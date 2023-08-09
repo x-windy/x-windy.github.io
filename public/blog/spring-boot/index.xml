@@ -1,0 +1,132 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>x-windy – Spring boot</title>
+    <link>https://x-windy.github.io/blog/spring-boot/</link>
+    <description>Recent content in Spring boot on x-windy</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    
+	  <atom:link href="https://x-windy.github.io/blog/spring-boot/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Blog: SSM</title>
+      <link>https://x-windy.github.io/blog/1/01/01/ssm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://x-windy.github.io/blog/1/01/01/ssm/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;ssm基础知识&#34;&gt;SSM基础知识&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Spring、SpringMVC、Mybatis&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;spring&#34;&gt;Spring&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Ioc/DI、AOP、ORM&lt;/p&gt;
+&lt;p&gt;控制反转/依赖注入、面向切面、对象关系映射&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.runoob.com/w3cnote/basic-knowledge-summary-of-spring.html&#34;&gt;Spring基础知识汇总 Java开发必看 | 菜鸟教程 (runoob.com)&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;spring优点&#34;&gt;Spring优点&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;低侵入式设计，代码的污染极低。&lt;/li&gt;
+&lt;li&gt;独立于各种应用服务器，基于Spring框架的应用，可以真正实现&lt;strong&gt;Write Once，Run Anywhere&lt;/strong&gt;的承诺。&lt;strong&gt;(一次编写，随处运行)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Spring的&lt;strong&gt;IoC容器&lt;/strong&gt; (控制反转 Inversion of Control) 降低了业务对象替换的复杂性，提高了组件之间的&lt;strong&gt;解耦&lt;/strong&gt;。&lt;strong&gt;(自动装配)&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Spring的**AOP（面向切面 Aspect Oriented Programming）**支持允许将一些通用任务如安全、事务、日志等进行集中式管理，从而提供了更好的复用。&lt;/li&gt;
+&lt;li&gt;Spring的&lt;strong&gt;ORM&lt;/strong&gt; &lt;strong&gt;(对象关系映射（Object Relational Mapping) &lt;strong&gt;和&lt;/strong&gt;DAO&lt;/strong&gt;提供了与第三方持久层框架的良好整合，并简化了底层的数据库访问。&lt;/li&gt;
+&lt;li&gt;Spring的高度开放性，并不强制应用完全依赖于Spring，开发者可自由选用Spring框架的部分或全部。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;spring框架的组成结构&#34;&gt;Spring框架的组成结构&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;Spring.assets/673670c9a34075831373b711cb8f21b7.png&#34; alt=&#34;SPRING&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;spring的核心机制&#34;&gt;Spring的核心机制&lt;/h3&gt;
+&lt;h4 id=&#34;管理bean&#34;&gt;管理Bean&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;通过&lt;strong&gt;Spring容器&lt;/strong&gt;来访问容器中的&lt;code&gt;Bean&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ApplicationContext&lt;/code&gt;是&lt;strong&gt;Spring容器&lt;/strong&gt;最常用的接口&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;code&gt;ApplicationContext&lt;/code&gt;接口的实现类&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ClassPathXmlApplicationContext&lt;/code&gt;: 从&lt;strong&gt;类加载路径&lt;/strong&gt;下搜索&lt;strong&gt;配置文件&lt;/strong&gt;，并根据配置文件来创建&lt;strong&gt;Spring容器&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FileSystemXmlApplicationContext&lt;/code&gt;: 从&lt;strong&gt;文件系统&lt;/strong&gt;的相对路径或绝对路径下去搜索&lt;strong&gt;配置文件&lt;/strong&gt;，并根据配置文件来创建&lt;strong&gt;Spring容器&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;BeanTest&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;String&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;args&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;[])&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;throws&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Exception&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000&#34;&gt;ApplicationContext&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ctx&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#204a87;font-weight:bold&#34;&gt;new&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ClassPathXmlApplicationContext&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;beans.xml&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000&#34;&gt;Person&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;p&lt;/span&gt; &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;ctx&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#c4a000&#34;&gt;getBean&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;person&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#000&#34;&gt;Person&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#c4a000&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;);&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#000&#34;&gt;p&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#c4a000&#34;&gt;say&lt;/span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;();&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;依赖注入dependency-injection&#34;&gt;依赖注入(Dependency Injection)&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Ioc/DI（控制反转/依赖注入）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Spring框架的核心功能有两个：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Spring容器作为超级大工厂，&lt;strong&gt;负责创建、管理&lt;/strong&gt;所有的&lt;strong&gt;Java对象&lt;/strong&gt;，这些Java对象被称为&lt;code&gt;Bean&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;Spring容器管理容器中&lt;strong&gt;Bean之间的依赖关系&lt;/strong&gt;，Spring使用一种被称为&amp;quot;&lt;strong&gt;依赖注入&lt;/strong&gt;&amp;ldquo;的方式来管理Bean之间的依赖关系。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;使用&lt;strong&gt;依赖注入&lt;/strong&gt;，不仅可以为Bean注入&lt;strong&gt;普通的属性值&lt;/strong&gt;，还可以注入&lt;strong&gt;其他Bean&lt;/strong&gt;的引用。依赖注入是一种优秀的&lt;strong&gt;解耦方式&lt;/strong&gt;，其可以让Bean以配置文件组织在一起，而不是以硬编码的方式耦合在一起。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;当某个Java对象（调用者）需要调用另一个Java对象（被依赖对象）的方法时&lt;/strong&gt;，在传统模式下通常有两种做法：&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;原始做法: 调用者&lt;strong&gt;主动&lt;/strong&gt;创建被依赖对象**(new 对象)**，然后再调用被依赖对象的方法。&lt;/li&gt;
+&lt;li&gt;简单工厂模式: 调用者先找到被依赖对象的工厂，然后&lt;strong&gt;主动&lt;/strong&gt;通过&lt;strong&gt;工厂&lt;/strong&gt;去获取被依赖对象**(Builder模式 见Effective Java阅读笔记第2条)**，最后再调用被依赖对象的方法。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;主动创建&lt;/strong&gt;会导致调用者与被依赖对象实现类的&lt;strong&gt;硬编码耦合&lt;/strong&gt;，非常不利于项目升级的维护&lt;/p&gt;
+&lt;p&gt;使用Spring后:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;调用者获取被依赖对象的方式由原来的&lt;strong&gt;主动&lt;/strong&gt;获取，变成了&lt;strong&gt;被动&lt;/strong&gt;接受。&lt;strong&gt;(IoC控制反转)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Spring容器负责将&lt;strong&gt;被依赖对象&lt;/strong&gt;赋值给&lt;strong&gt;调用者的成员变量&lt;/strong&gt;——相当于为调用者注入它依赖的实例。&lt;strong&gt;(DI依赖注入)&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h5 id=&#34;设值注入&#34;&gt;设值注入&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;设值注入是指&lt;strong&gt;IoC容器&lt;/strong&gt;通过&lt;strong&gt;成员变量&lt;/strong&gt;的&lt;code&gt;setter&lt;/code&gt;方法来注入被依赖对象(Spring依赖注入大量使用)&lt;/p&gt;
+&lt;p&gt;JavaBean模式&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h5 id=&#34;构造注入&#34;&gt;构造注入&lt;/h5&gt;
+&lt;blockquote&gt;
+&lt;p&gt;利用&lt;strong&gt;构造器&lt;/strong&gt;来设置依赖关系的方式，被称为构造注入。&lt;/p&gt;
+&lt;p&gt;Spring在底层以&lt;strong&gt;反射方式&lt;/strong&gt;执行带&lt;strong&gt;指定参数的构造器&lt;/strong&gt;，当执行带参数的构造器时，就可利用构造器参数对成员变量执行初始化——这就是构造注入的本质。&lt;/p&gt;
+&lt;p&gt;构造器模式&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;
+建议采用&lt;strong&gt;设值注入&lt;/strong&gt;为主，&lt;strong&gt;构造注入&lt;/strong&gt;为辅的注入策略。对于&lt;strong&gt;依赖关系无须变化&lt;/strong&gt;的注入，尽量采用构造注入；而其他依赖关系的注入，则考虑采用设值注入。&lt;/p&gt;
+&lt;h4 id=&#34;spring容器中的bean&#34;&gt;Spring容器中的Bean&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;对于开发者来说&lt;/strong&gt;，开发者使用Spring框架主要是做两件事：&lt;/p&gt;
+&lt;p&gt;①开发Bean；②配置Bean。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;对于Spring框架来说&lt;/strong&gt;，它要做的就是根据&lt;strong&gt;配置文件&lt;/strong&gt;来创建&lt;strong&gt;Bean实例&lt;/strong&gt;，&lt;strong&gt;并调用Bean实例&lt;/strong&gt;的方法完成&amp;quot;依赖注入&amp;rdquo;——这就是所谓&lt;code&gt;IoC&lt;/code&gt;的本质。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h5 id=&#34;容器中bean的作用域&#34;&gt;容器中Bean的作用域&lt;/h5&gt;
+&lt;p&gt;Spring支持如下五种作用域：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;singleton&lt;/code&gt;: &lt;strong&gt;单例模式&lt;/strong&gt;，在整个Spring IoC容器中，&lt;strong&gt;singleton作用域&lt;/strong&gt;的Bean将&lt;strong&gt;只生成一个实例&lt;/strong&gt;。（静态）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;prototype&lt;/code&gt;: 每次通过容器的&lt;code&gt;getBean()&lt;/code&gt;方法获取&lt;strong&gt;prototype作用域&lt;/strong&gt;的Bean时，都将&lt;strong&gt;产生一个新的Bean实例&lt;/strong&gt;。(动态)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;request&lt;/code&gt;: &lt;strong&gt;对于一次HTTP请求&lt;/strong&gt;，&lt;strong&gt;request作用域&lt;/strong&gt;的Bean将&lt;strong&gt;只生成一个实例&lt;/strong&gt;，这意味着，在&lt;strong&gt;同一次&lt;/strong&gt;HTTP请求&lt;strong&gt;内&lt;/strong&gt;，程序每次请求该Bean，得到的总是&lt;strong&gt;同一个实例&lt;/strong&gt;。只有在&lt;strong&gt;Web应用&lt;/strong&gt;中使用Spring时，该作用域才真正有效。(web应用中生效)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;session&lt;/code&gt;：该作用域将 bean 的定义限制为 &lt;strong&gt;HTTP 会话&lt;/strong&gt;。 只在web-aware Spring ApplicationContext的上下文中有效。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;global session&lt;/code&gt;: 每个&lt;strong&gt;全局的HTTP Session&lt;/strong&gt;对应&lt;strong&gt;一个Bean实例&lt;/strong&gt;。在典型的情况下，仅在使用portlet context的时候有效，同样&lt;strong&gt;只在Web应用中有效&lt;/strong&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果不指定Bean的作用域，Spring&lt;strong&gt;默认使用singleton作用域&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;prototype作用域的Bean的创建、销毁代价比较大。&lt;/p&gt;
+&lt;p&gt;而singleton作用域的Bean实例一旦创建成果，就可以重复使用。&lt;strong&gt;因此，应该尽量避免将Bean设置成prototype作用域。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

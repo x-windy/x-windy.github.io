@@ -1,0 +1,33 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>x-windy – 阿里巴巴Java开发手册</title>
+    <link>https://x-windy.github.io/categories/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/</link>
+    <description>Recent content in 阿里巴巴Java开发手册 on x-windy</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    
+	  <atom:link href="https://x-windy.github.io/categories/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: 第1章 编程规约 </title>
+      <link>https://x-windy.github.io/docs/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/%E7%AC%AC1%E7%AB%A0-%E7%BC%96%E7%A8%8B%E8%A7%84%E7%BA%A6/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://x-windy.github.io/docs/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/%E7%AC%AC1%E7%AB%A0-%E7%BC%96%E7%A8%8B%E8%A7%84%E7%BA%A6/</guid>
+      <description>
+        
+        
+        &lt;h1 id=&#34;一编程规约&#34;&gt;一、编程规约&lt;/h1&gt;
+&lt;h2 id=&#34;一命名风格&#34;&gt;(一)命名风格&lt;/h2&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

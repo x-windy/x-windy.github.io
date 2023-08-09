@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://x-windy.github.io/zh-cn/docs/effective-java/%E7%AC%AC1%E7%AB%A0-%E5%BC%95%E8%A8%80/</loc>
+    <loc>https://x-windy.github.io/docs/effective-java/%E7%AC%AC1%E7%AB%A0-%E5%BC%95%E8%A8%80/</loc>
     <lastmod>2023-07-05T02:37:06+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -17,10 +17,10 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/docs/effective-java/%E7%AC%AC1%E7%AB%A0-%E5%BC%95%E8%A8%80/"
+                href="https://x-windy.github.io/docs/effective-java/%E7%AC%AC1%E7%AB%A0-%E5%BC%95%E8%A8%80/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/docs/effective-java/</loc>
+    <loc>https://x-windy.github.io/docs/effective-java/</loc>
     <lastmod>2023-07-06T23:02:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -35,10 +35,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/docs/effective-java/"
+                href="https://x-windy.github.io/docs/effective-java/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/docs/effective-java/%E7%AC%AC2%E7%AB%A0-%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/</loc>
+    <loc>https://x-windy.github.io/docs/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/%E7%AC%AC1%E7%AB%A0-%E7%BC%96%E7%A8%8B%E8%A7%84%E7%BA%A6/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/docs/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/</loc>
+    <lastmod>2023-07-05T02:38:55+08:00</lastmod>
+  </url><url>
+    <loc>https://x-windy.github.io/docs/effective-java/%E7%AC%AC2%E7%AB%A0-%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/</loc>
     <lastmod>2023-07-05T02:38:55+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -53,10 +58,13 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/docs/effective-java/%E7%AC%AC2%E7%AB%A0-%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/"
+                href="https://x-windy.github.io/docs/effective-java/%E7%AC%AC2%E7%AB%A0-%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/blog/java/</loc>
+    <loc>https://x-windy.github.io/docs/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/%E7%AC%AC2%E7%AB%A0-%E5%88%9B%E5%BB%BA%E5%92%8C%E9%94%80%E6%AF%81%E5%AF%B9%E8%B1%A1/</loc>
+    <lastmod>2023-07-05T02:38:55+08:00</lastmod>
+  </url><url>
+    <loc>https://x-windy.github.io/blog/java/</loc>
     <lastmod>2023-07-06T23:02:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -71,10 +79,10 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/blog/java/"
+                href="https://x-windy.github.io/blog/java/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/blog/python/</loc>
+    <loc>https://x-windy.github.io/blog/python/</loc>
     <lastmod>2023-07-06T23:02:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -89,10 +97,10 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/blog/python/"
+                href="https://x-windy.github.io/blog/python/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/docs/</loc>
+    <loc>https://x-windy.github.io/docs/</loc>
     <lastmod>2023-07-06T23:02:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -107,10 +115,13 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/docs/"
+                href="https://x-windy.github.io/docs/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/blog/%E6%97%A5%E8%AF%AD/</loc>
+    <loc>https://x-windy.github.io/blog/spring-boot/</loc>
+    <lastmod>2023-07-15T03:49:39+08:00</lastmod>
+  </url><url>
+    <loc>https://x-windy.github.io/blog/%E6%97%A5%E8%AF%AD/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -124,10 +135,13 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/blog/%E6%97%A5%E8%AF%AD/"
+                href="https://x-windy.github.io/blog/%E6%97%A5%E8%AF%AD/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/blog/2023/07/06/%E5%87%86%E5%A4%87/</loc>
+    <loc>https://x-windy.github.io/blog/2023/07/12/spring-cloud/</loc>
+    <lastmod>2023-07-15T03:49:39+08:00</lastmod>
+  </url><url>
+    <loc>https://x-windy.github.io/blog/2023/07/06/%E5%87%86%E5%A4%87/</loc>
     <lastmod>2023-07-06T16:40:29+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -142,10 +156,10 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/blog/2023/07/06/%E5%87%86%E5%A4%87/"
+                href="https://x-windy.github.io/blog/2023/07/06/%E5%87%86%E5%A4%87/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/categories/</loc>
+    <loc>https://x-windy.github.io/categories/</loc>
     <lastmod>2023-07-05T02:38:55+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -160,10 +174,10 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/categories/"
+                href="https://x-windy.github.io/categories/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/categories/effective-java/</loc>
+    <loc>https://x-windy.github.io/categories/effective-java/</loc>
     <lastmod>2023-07-05T02:38:55+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -178,10 +192,10 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/categories/effective-java/"
+                href="https://x-windy.github.io/categories/effective-java/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/tags/java/</loc>
+    <loc>https://x-windy.github.io/tags/java/</loc>
     <lastmod>2023-07-05T02:38:55+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -196,10 +210,10 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/tags/java/"
+                href="https://x-windy.github.io/tags/java/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/tags/</loc>
+    <loc>https://x-windy.github.io/tags/</loc>
     <lastmod>2023-07-05T02:38:55+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -214,10 +228,26 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/tags/"
+                href="https://x-windy.github.io/tags/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/blog/hugo/</loc>
+    <loc>https://x-windy.github.io/blog/1/01/01/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/blog/1/01/01/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/docs/bug%E6%80%BB%E7%BB%93/bug-idea/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/docs/bug%E6%80%BB%E7%BB%93/bug-java/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/docs/bug%E6%80%BB%E7%BB%93/bug-maven/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/docs/bug%E6%80%BB%E7%BB%93/bug-springboot/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/docs/%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE/%E7%94%B5%E5%95%86%E9%A1%B9%E7%9B%AE%E5%AD%A6%E4%B9%A0%E6%96%87%E6%A1%A3/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/blog/1/01/01/docker/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/blog/hugo/</loc>
     <lastmod>2023-07-06T23:02:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -232,10 +262,18 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/blog/hugo/"
+                href="https://x-windy.github.io/blog/hugo/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/search/</loc>
+    <loc>https://x-windy.github.io/blog/1/01/01/jwt/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/blog/1/01/01/redis/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/blog/1/01/01/restful/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/blog/1/01/01/ruoyi/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/search/</loc>
     <lastmod>2023-07-09T15:09:06+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -250,11 +288,15 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/search/"
+                href="https://x-windy.github.io/search/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/</loc>
-    <lastmod>2023-07-06T23:02:30+08:00</lastmod>
+    <loc>https://x-windy.github.io/blog/1/01/01/springsecurity/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/blog/1/01/01/ssm/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/</loc>
+    <lastmod>2023-07-09T16:57:13+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -268,10 +310,12 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/"
+                href="https://x-windy.github.io/"
                 />
   </url><url>
-    <loc>https://x-windy.github.io/zh-cn/blog/</loc>
+    <loc>https://x-windy.github.io/categories/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4java%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C/</loc>
+  </url><url>
+    <loc>https://x-windy.github.io/blog/</loc>
     <lastmod>2023-07-06T23:02:30+08:00</lastmod>
     <xhtml:link
                 rel="alternate"
@@ -286,7 +330,7 @@
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="https://x-windy.github.io/zh-cn/blog/"
+                href="https://x-windy.github.io/blog/"
                 />
   </url>
 </urlset>
